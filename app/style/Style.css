@@ -1,0 +1,14 @@
+.populer-tags li:hover{
+    background-color: rgb(107, 107, 107);
+    cursor: pointer;
+}
+.footerr-tag li:hover{
+    cursor: pointer;
+}
+
+*{
+    /* overflow: hidden; */
+    box-sizing: border-box;
+}
+
+  
