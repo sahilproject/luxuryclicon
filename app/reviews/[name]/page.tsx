@@ -12,10 +12,6 @@ interface Review {
   created_at: string;
 }
 
-interface Product {
-  name: string;
-  image_url: string;
-}
 
 interface ReviewWithImage extends Review {
   image_url?: string;
@@ -43,7 +39,7 @@ export default function ReviewPage({ params }: { params: Promise<{ name: string 
       }
 
       // Fetch product info for the same product_name
-      const { data: productData, error: productError } = await supabase
+      const { data: productData } = await supabase
         .from("allproducts")
         .select("name, image_url")
         .eq("name", decodedName)
@@ -67,7 +63,7 @@ export default function ReviewPage({ params }: { params: Promise<{ name: string 
   return (
     <div className="p-6 max-w-3xl mx-auto border border-[#E4E7E9] rounded-sm shadow-md my-4">
       <h1 className="text-2xl font-bold mb-4 ">
-        Reviews for "{decodeURIComponent(name)}"
+        Reviews for {decodeURIComponent(name)}
       </h1>
 
       {reviews.length === 0 ? (

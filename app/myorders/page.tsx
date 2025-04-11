@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
+import Image from "next/image";
 
 type Order = {
   id: string;
@@ -210,10 +211,12 @@ export default function MyOrders() {
                 >
                   <div className="flex items-center gap-4">
                     {item.image_url && (
-                      <img
+                      <Image
                         src={item.image_url}
                         alt={item.name}
-                        className="w-16 h-16 object-cover rounded"
+                        width={300}
+                        height={300}
+                        className="w-36 h-26 object-cover rounded"
                       />
                     )}
                     <div>

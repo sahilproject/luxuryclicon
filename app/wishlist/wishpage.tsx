@@ -11,13 +11,6 @@ interface CartProps {
 }
 
 
-type WishListItem = {
-  id: string;
-  product_name: string;
-  image_url: string;
-  price: number;
-  quantity: number;
-};
 
 
 const Wishpage: React.FC<CartProps> = ({ onClose }) => {
@@ -46,6 +39,7 @@ const Wishpage: React.FC<CartProps> = ({ onClose }) => {
       ) : (
         <ul>
           {wishList.map((item: any) => (
+            
             <li key={item.id} className="flex justify-between py-2 border-b">
               <Image width={100} alt="item" src={item.image_url} height={200} />
               <span className="ml-1">{item.name}</span>

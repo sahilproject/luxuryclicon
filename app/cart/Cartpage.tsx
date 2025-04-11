@@ -26,7 +26,6 @@ interface SupabaseCartItem {
 
 const Cart: React.FC<CartProps> = ({ onClose }) => {
   const [dbCart, setDbCart] = useState<SupabaseCartItem[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
   const hasFetched = useRef(false); 
 
   const router = useRouter();
@@ -44,8 +43,6 @@ const Cart: React.FC<CartProps> = ({ onClose }) => {
         toast.info("Please sign in to see your cart!");
         return;
       }
-
-      setUserId(user.id);
 
       const { data, error } = await supabase
         .from("cart")

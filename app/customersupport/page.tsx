@@ -69,8 +69,8 @@ export default function HelpCenterPage() {
               <li>How long is the refund process?</li>
             </ul>
             <ul className='flex flex-col gap-y-3'>
-              <li>What are the 'Delivery Timelines'?</li>
-              <li>What is 'Discover Your Daraz Campaign 2022'?</li>
+              <li>What are the Delivery Timelines ?</li>
+              <li>What is Discover Your Daraz Campaign 2022?</li>
               <li>What is the Voucher & Gift Offer in this Campaign?</li>
             </ul>
             <ul className='flex flex-col gap-y-3'>

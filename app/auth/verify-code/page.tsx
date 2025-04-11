@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -8,6 +7,12 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+type VerificationFormData = {
+  code: string; 
+};
+
+
+
 const VerifyCode = () => {
   const router = useRouter();
 
@@ -15,9 +20,10 @@ const VerifyCode = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<VerificationFormData>();
+  
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: VerificationFormData) => {
     toast.success("Code verified successfully!", {
       position: "bottom-center",
       autoClose: 2000,
@@ -30,9 +36,8 @@ const VerifyCode = () => {
 
     console.log("Verification Code:", data);
 
-    // Simulate redirect to reset password
     setTimeout(() => {
-      router.push("/auth/resetpassword"); // Make sure this page exists
+      router.push("/auth/resetpassword");
     }, 2000);
   };
 
@@ -83,7 +88,7 @@ const VerifyCode = () => {
 
         {/* Info Message */}
         <p className="mt-4 text-sm text-center text-[#5F6C72]">
-          Didn't receive the code?{" "}
+          Didn&rsquo;t receive the code?{" "}
           <span className="text-[#2DA5F3] cursor-pointer hover:underline">
             Resend
           </span>

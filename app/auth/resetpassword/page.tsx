@@ -4,14 +4,20 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { GoArrowRight } from "react-icons/go";
 import { toast } from "react-toastify";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/app/lib/supabaseClient";
 import "react-toastify/dist/ReactToastify.css";
 
+
+type ResetPasswordFormData = {
+  newPassword: string;
+  confirmPassword: string;
+};
+
+
+
 const ResetPassword = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const access_token = searchParams.get("access_token");
   const [loading, setLoading] = useState(false);
 
   const {
@@ -19,9 +25,9 @@ const ResetPassword = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
-
-  const onSubmit = async (data: any) => {
+  } = useForm<ResetPasswordFormData>();
+  
+  const onSubmit = async (data: ResetPasswordFormData) => {
     setLoading(true);
 
     const { newPassword } = data;

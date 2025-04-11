@@ -7,9 +7,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Signup from "../signup/page";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/app/lib/supabaseClient"; 
+import { supabase } from "@/app/lib/supabaseClient";
 
-
+type ForgotPasswordFormData = {
+  email: string;
+};
 
 const Forgetpassword = () => {
   const [issignup, setIssignup] = useState(false);
@@ -19,15 +21,14 @@ const Forgetpassword = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<ForgotPasswordFormData>();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: ForgotPasswordFormData) => {
     const { email } = data;
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "/auth/verify-code", 
+      redirectTo: "/auth/verify-code",
     });
-
 
     if (error) {
       toast.error(error.message, {
@@ -41,7 +42,7 @@ const Forgetpassword = () => {
       });
 
       setTimeout(() => {
-        router.push("/auth/verify-code"); 
+        router.push("/auth/verify-code");
       }, 2000);
     }
   };
@@ -91,8 +92,9 @@ const Forgetpassword = () => {
         <div className="flex items-center justify-center my-4">
           <div className="flex-1 h-px bg-gray-300"></div>
           <span className="text-gray-500 px-2 text-sm">
-            Don't have an account?
+            Don&apos;t have an account?
           </span>
+
           <div className="flex-1 h-px bg-gray-300"></div>
         </div>
 

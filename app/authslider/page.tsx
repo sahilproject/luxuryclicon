@@ -58,17 +58,13 @@ export default function AuthSlider() {
       router.push("/auth/profile");
 
     } else {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email: form.email,
         password: form.password,
       });
 
       if (error) return toast.error(error.message);
-      // const accessToken = data.session?.access_token;
-
-      // if (accessToken) {
-      //   sessionStorage.setItem("accessToken", accessToken);
-      // }
+      
       toast.success("Signed in successfully!");
       router.push("/checkoutpage");
 

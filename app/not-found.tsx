@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import errorimg from '@/public/assets/error.svg'
-import { GoArrowLeft, GoArrowRight } from 'react-icons/go'
+import { GoArrowLeft } from 'react-icons/go'
 import Link from 'next/link'
 
 

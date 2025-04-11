@@ -44,7 +44,6 @@ const UserDashboard = () => {
     { label: "Order History", path: "/dashboard" },
     { label: "Shopping Cart", path: "/cart/cartpage" },
     { label: "Wishlist", path: "/wishlist" },
-    // { label: "Browsing History", path: "/dashboard" },
   ];
 
   const billingInfo = orders[0]?.billing_info
@@ -111,7 +110,7 @@ const UserDashboard = () => {
     };
 
     fetchData();
-  }, []);
+  }, [router, setProfile, setOrders, setLoading]);
 
 
 

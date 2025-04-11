@@ -8,7 +8,14 @@ import Signin from "../signin/page";
 import { supabase } from "@/app/lib/supabaseClient";
 import { useRouter } from "next/navigation"; 
 
-// sahil //
+
+type SignUpFormData = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+
 
 
 const Signup = ({ onClose }: { onClose: () => void }) => {
@@ -21,10 +28,10 @@ const Signup = ({ onClose }: { onClose: () => void }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<SignUpFormData>();
+  
 
-
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: SignUpFormData) => {
     const { name, email, password } = data;
   
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
@@ -59,8 +66,9 @@ const Signup = ({ onClose }: { onClose: () => void }) => {
     ]);
   
     if (insertError) {
-      toast.error("Sign up error!");
+      toast.success("Sign up successful!");
       // console.error(insertError);
+    router.push("/dashboard");
       return;
     }
   

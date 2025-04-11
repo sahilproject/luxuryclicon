@@ -10,22 +10,48 @@ import { FaRegCreditCard } from "react-icons/fa";
 import Image from "next/image";
 import orderimg from "@/public/assets/CheckCircle.svg";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabaseClient";
 
-// sahil //
 
 const CheckoutForm = () => {
-  const router = useRouter();
 
-  const [paymentMethod, setPaymentMethod] = useState("Debit/Credit Card");
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
   const [dbCart, setDbCart] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState("Cash on Delivery");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =useState("Cash on Delivery");
+
+  useEffect(() => {
+    const fetchUserAndCart = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+  
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+  
+      setUserId(user.id);
+  
+      const { data: cartData, error } = await supabase
+        .from("cart")
+        .select("*")
+        .eq("user_id", user.id);
+  
+      if (error) {
+        console.error("Failed to fetch cart:", error.message);
+      } else {
+        setDbCart(cartData || []);
+      }
+  
+      setLoading(false);
+    };
+  
+    fetchUserAndCart();
+  }, []);
+  
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -44,36 +70,8 @@ const CheckoutForm = () => {
   const context = useContext(cartContext);
   if (!context) return <div>Error: Cart context missing</div>;
   const { clearCart } = context;
+  
 
-  useEffect(() => {
-    const fetchUserAndCart = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
-        setLoading(false);
-        return;
-      }
-
-      setUserId(user.id);
-
-      const { data: cartData, error } = await supabase
-        .from("cart")
-        .select("*")
-        .eq("user_id", user.id);
-
-      if (error) {
-        console.error("Failed to fetch cart:", error.message);
-      } else {
-        setDbCart(cartData || []);
-      }
-
-      setLoading(false);
-    };
-
-    fetchUserAndCart();
-  }, []);
 
   const cart = dbCart;
   const subtotal = cart.reduce(
@@ -333,9 +331,11 @@ const CheckoutForm = () => {
               className="flex items-center justify-between text-sm"
             >
               <div className="flex items-center gap-3">
-                <img
+                <Image
                   src={item.image_url}
                   alt={item.name}
+                  width={200}
+                  height={200}
                   className="w-12 h-12 object-cover rounded"
                 />
                 <div>
@@ -395,7 +395,7 @@ const CheckoutForm = () => {
         {/* Place Order Button */}
         <button
           onClick={handlePlaceOrder}
-          className="w-full mt-4 bg-orange-500 text-white py-2 rounded hover:bg-orange-600 transition-all"
+          className="w-full mt-4 cursor-pointer bg-orange-500 text-white py-2 rounded hover:bg-orange-600 transition-all"
         >
           Place Order <GoArrowRight className="inline ml-1" />
         </button>

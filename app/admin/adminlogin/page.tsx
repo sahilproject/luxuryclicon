@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -11,7 +10,7 @@ type LoginProps = {
   onSuccess: () => void;
 };
 
-const Login: React.FC<LoginProps> = ({ onSuccess }) => {
+const Login: React.FC<LoginProps> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -39,7 +38,6 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
       toast.success("Admin login successful");
       router.push("/admin");
     } else {
-      // await supabase.auth.signOut();
       toast.error("Access denied: Not an admin");
     }
   };

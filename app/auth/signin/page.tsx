@@ -10,6 +10,12 @@ import Link from "next/link";
 import { supabase } from "@/app/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 
+
+type SignUpFormData = {
+  email: string;
+  password: string;
+};
+
 const Signin = ({ onClose }: { onClose: () => void }) => {
   const [issignup, setIssignup] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -18,11 +24,13 @@ const Signin = ({ onClose }: { onClose: () => void }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<SignUpFormData>();
+  
+
   const router = useRouter();
 
-  const onSubmit = async (data: any) => {
-    setLoading(true); // Start loading
+  const onSubmit = async (data: SignUpFormData) => {
+    setLoading(true); 
 
     const { data: signInData, error } = await supabase.auth.signInWithPassword({
       email: data.email,
@@ -184,9 +192,9 @@ const Signin = ({ onClose }: { onClose: () => void }) => {
               />
             </svg>
           ) : (
-            <>
+            <button className="flex justify-center items-center">
               LOGIN <GoArrowRight className="ml-1 text-1xl" />
-            </>
+              </button>
           )}
         </button>
       </form>

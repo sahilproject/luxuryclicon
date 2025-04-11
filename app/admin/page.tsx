@@ -14,20 +14,43 @@ type Product = {
   id: number;
   name: string;
   price: number;
+  quantity: number;
   categories: string;
   image_url?: string;
 };
 
 
+type Profile = {
+  id: string;
+  name?: string;
+  email?: string;
+  address?: string;
+  billing_address?: string;
+  phone?: string;
+  role: string;
+};
+
+type Category = {
+  id: string;
+  name: string;
+};
+
+interface Order {
+  id: string;
+  details: Product[];
+  status: "Pending" | "In Progress" | "Completed" | "Rejected";
+  payment_method:string;
+  user_email:string;
+}
 
 const Dashboard = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [adminId, setAdminId] = useState<string | null>(null);
-  const [profile, setProfile] = useState<any>(null);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [newCategory, setNewCategory] = useState("");
   const [editCategoryId, setEditCategoryId] = useState<number | null>(null);
   const [editCategoryName, setEditCategoryName] = useState("");
@@ -42,7 +65,9 @@ const Dashboard = () => {
     price: 0,
     categories: "",
     image_url: "",
+    quantity: 1,
   });
+  
   const router = useRouter();
 
   // for show login popup //
@@ -89,6 +114,7 @@ const Dashboard = () => {
   
       const userMeta = user.user_metadata;
       setProfile({
+        id: user.id, 
         name: userMeta.full_name || userMeta.display_name || "Admin",
         email: user.email,
         role: userMeta.role || "admin",
@@ -96,7 +122,7 @@ const Dashboard = () => {
     };
   
     init();
-  }, []);
+  }, [router]);
   
 
   useEffect(() => {
@@ -177,11 +203,26 @@ const Dashboard = () => {
 
 
   //--------- for order status start----------//
-  const updateOrderStatus = async (id: number, status: string) => {
-    await supabase.from("orders").update({ status }).eq("id", id);
+  // const updateOrderStatus = async (id: number, status: string) => {
+  //   await supabase.from("orders").update({ status }).eq("id", id);
+  //   fetchOrders();
+  //   toast.success(`Order status updated to ${status}`);
+  // };
+
+  const updateOrderStatus = async (id: string, status: string) => {
+    const { error } = await supabase.from("orders").update({ status }).eq("id", id);
+  
+    if (error) {
+      console.error("Error updating order status:", error.message);
+      toast.error("Failed to update status");
+      console.log(error)
+      return;
+    }
+  
     fetchOrders();
     toast.success(`Order status updated to ${status}`);
   };
+  
   //--------- for order status end----------//
 
 
@@ -415,7 +456,7 @@ const Dashboard = () => {
               <div>
                 <h3 className="text-2xl font-semibold mb-4">Orders</h3>
                 <div className="space-y-4">
-                  {orders.map((order: any) => (
+                  {orders.map((order: Order) => (
                     <div
                       key={order.id}
                       className="bg-white p-4 rounded-xl shadow-md border-[1px] border-[#E4E7E9]"
@@ -425,15 +466,15 @@ const Dashboard = () => {
                           <strong>Order ID:</strong> {order.id}
                         </p>
 
-                        {order.details?.map((product: any, index: number) => (
+                        {order.details?.map((product: Product, index: number) => (
                           <div key={index} >
 
                             <p>
                               <strong>Product:</strong> {product.name}
                               <Image
                               className="py-3"
-                                src={product.image_url}
-                                alt="image"
+                              src={product.image_url || "/placeholder.jpg"} 
+                              alt="image"
                                 height={200}
                                 width={200}
                               />
@@ -541,7 +582,7 @@ const Dashboard = () => {
                       key={cat.id}
                       className="flex justify-between items-center bg-white p-3 rounded shadow"
                     >
-                      {editCategoryId === cat.id ? (
+                      {editCategoryId === Number(cat.id )? (
                         <div className="flex w-full gap-2">
                           <input
                             value={editCategoryName}
@@ -569,14 +610,14 @@ const Dashboard = () => {
                           <div className="space-x-2">
                             <button
                               onClick={() =>
-                                startEditCategory(cat.id, cat.name)
+                                startEditCategory(Number(cat.id), cat.name)
                               }
                               className="text-blue-500 cursor-pointer"
                             >
                               Edit
                             </button>
                             <button
-                              onClick={() => deleteCategory(cat.id)}
+                              onClick={() => deleteCategory(Number(cat.id))}
                               className="text-red-500 cursor-pointer"
                             >
                               Delete

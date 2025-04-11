@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
+import { User } from "@supabase/supabase-js";
+
+type UserRole = "user" | "admin" | null;
 
 
 export const useAuth = () => {
-  const [user, setUser] = useState<any>(null);
-  const [role, setRole] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [role, setRole] = useState<UserRole>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
