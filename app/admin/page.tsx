@@ -55,7 +55,6 @@ const Dashboard = () => {
 
   
   // fetch admin profile and check user admin or not
-
   useEffect(() => {
     const init = async () => {
       const {
@@ -99,7 +98,6 @@ const Dashboard = () => {
     init();
   }, []);
   
-
 
   useEffect(() => {
     if (isLoggedIn && adminId) {
@@ -173,6 +171,7 @@ const Dashboard = () => {
     setEditCategoryId(null);
     setEditCategoryName("");
   };
+
   //--------- category manage end----------//
 
 
@@ -426,18 +425,20 @@ const Dashboard = () => {
                           <strong>Order ID:</strong> {order.id}
                         </p>
 
-                        {/* Loop through all products in the order */}
                         {order.details?.map((product: any, index: number) => (
-                          <div key={index}>
+                          <div key={index} >
+
                             <p>
                               <strong>Product:</strong> {product.name}
                               <Image
+                              className="py-3"
                                 src={product.image_url}
                                 alt="image"
-                                height={100}
-                                width={100}
+                                height={200}
+                                width={200}
                               />
                             </p>
+
                             <p>
                               <strong>Quantity:</strong> {product.quantity}
                             </p>
@@ -528,11 +529,12 @@ const Dashboard = () => {
                   />
                   <button
                     onClick={addCategory}
-                    className="bg-blue-500 text-white px-4 py-1 rounded"
+                    className="bg-blue-500 text-white px-4 py-1 rounded cursor-pointer"
                   >
                     Add
                   </button>
                 </div>
+
                 <ul className="space-y-2">
                   {categories.map((cat) => (
                     <li
@@ -550,13 +552,13 @@ const Dashboard = () => {
                           />
                           <button
                             onClick={updateCategory}
-                            className="bg-green-500 text-white px-2 py-1 rounded"
+                            className="bg-green-500 text-white px-2 py-1 rounded cursor-pointer"
                           >
                             Save
                           </button>
                           <button
                             onClick={cancelEdit}
-                            className="bg-gray-300 text-black px-2 py-1 rounded"
+                            className="bg-gray-300 text-black px-2 py-1 rounded cursor-pointer"
                           >
                             Cancel
                           </button>
@@ -569,13 +571,13 @@ const Dashboard = () => {
                               onClick={() =>
                                 startEditCategory(cat.id, cat.name)
                               }
-                              className="text-blue-500"
+                              className="text-blue-500 cursor-pointer"
                             >
                               Edit
                             </button>
                             <button
                               onClick={() => deleteCategory(cat.id)}
-                              className="text-red-500"
+                              className="text-red-500 cursor-pointer"
                             >
                               Delete
                             </button>
@@ -588,6 +590,7 @@ const Dashboard = () => {
                     <p className="text-gray-400">No categories yet.</p>
                   )}
                 </ul>
+
               </div>
             )}
 
@@ -673,21 +676,21 @@ const Dashboard = () => {
                   </div>
 
                   {/* Right: Product List */}
-                  <div className="bg-white p-6 rounded-xl shadow space-y-4">
-                    <h3 className="text-xl font-semibold">All Products</h3>
+                  <div className="bg-white p-6 rounded-xl shadow space-y-4 ">
+                    <h3 className="text-xl font-semibold text-center">All Products</h3>
                     {products.length > 0 ? (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {products.map((product) => (
                           <div
                             key={product.id}
-                            className="border p-3 rounded-lg"
+                            className="border-[2px] p-2 rounded-lg border-[#E4E7E9] "
                           >
                             {product.image_url && (
                               <div className="mb-2">
                                 <Image
                                   src={product.image_url}
                                   alt={product.name}
-                                  width={200}
+                                  width={150}
                                   height={150}
                                   className="w-full h-40 object-cover rounded"
                                 />
@@ -695,11 +698,11 @@ const Dashboard = () => {
                             )}
                             <h3 className="font-semibold">{product.name}</h3>
                             <p className="text-green-600 font-bold">
-                              ₹{product.price}
+                              ${product.price}
                             </p>
-                            <p className="text-sm text-gray-500">
+                            {/* <p className="text-sm text-gray-500">
                               Category: {product.categories}
-                            </p>
+                            </p> */}
                             <div className="flex gap-2 mt-2">
                               <button
                                 onClick={() => handleEdit(product)}

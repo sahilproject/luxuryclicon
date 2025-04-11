@@ -2,7 +2,6 @@
 import React, { useContext } from "react";
 import { cartContext } from "../context/ProductContext";
 import Image from "next/image";
-import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { RxCross2 } from "react-icons/rx";
@@ -20,17 +19,16 @@ const Wishpage: React.FC<CartProps> = ({ onClose }) => {
   }
 
   const { wishList, removeFromWishlist } = context;
-  console.log(wishList);
 
   const router = useRouter();
 
   const handleNavigation = () => {
-    onClose(); 
-    router.push("/cart/cartpage"); 
+    onClose();
+    router.push("/wishlist"); 
   };
 
   return (
-    <div className="absolute top-12 right-12 w-100 bg-white shadow-lg rounded-lg p-4">
+    <div className="absolute top-12 right-2 sm:right-12 w-100 bg-white shadow-lg rounded-lg p-4">
       <h3 className="text-lg font-semibold">Your Wishlist</h3>
 
       {wishList.length === 0 ? (
@@ -44,7 +42,7 @@ const Wishpage: React.FC<CartProps> = ({ onClose }) => {
               <span className="font-bold">{item.price}</span>
               <button
                 onClick={() => removeFromWishlist(item.id)}
-                className="mx-4  cursor-pointer"
+                className="mx-4 cursor-pointer"
               >
                 <RxCross2 className="text-black" />
               </button>
@@ -53,7 +51,7 @@ const Wishpage: React.FC<CartProps> = ({ onClose }) => {
         </ul>
       )}
 
-      <Link href={`/wishlist`} className="flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <button
           onClick={handleNavigation}
           className="bg-[#FA8232] border-none text-white flex items-center justify-center mt-5 border cursor-pointer rounded-sm border-gray-600 p-2"
@@ -61,7 +59,7 @@ const Wishpage: React.FC<CartProps> = ({ onClose }) => {
           VIEW WISHLIST
           <GoArrowRight />
         </button>
-      </Link>
+      </div>
     </div>
   );
 };

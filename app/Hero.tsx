@@ -9,8 +9,10 @@ import Link from "next/link";
 const Hero = () => {
   return (
     <>
-      <section className="hero-section mt-[30px]">
+      <section className="hero-section ">
         <div className="container mx-auto p-4">
+
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-x-2">
             {/* <!-- col-8 (8/12 = 2/3) --> */}
             <div className="md:col-span-2 text-white border rounded-2xl cursor-pointer">
@@ -19,7 +21,7 @@ const Hero = () => {
               </Link>
             </div>
             {/* <!-- col-4 (4/12 = 1/3) --> */}
-            <div className="md:col-span-1 text-white grid gap-y-3">
+            <div className="  md:col-span-1 text-white sm:block hidden gap-y-3">
               <Link href="/browseallproducts">
               <Image src={Heroimg1} alt="heroimg" className="cursor-pointer"/>
               </Link>
@@ -28,6 +30,8 @@ const Hero = () => {
               </Link>
             </div>
           </div>
+
+          
         </div> 
       </section>
     </>

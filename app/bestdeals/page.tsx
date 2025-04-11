@@ -52,7 +52,7 @@ const BestDeals = () => {
 
         {/* products  */}
         <div className="grid grid-cols-1 md:grid-cols-12 mt-4 ">
-          <div className="md:col-span-3 p-6 border border-[#E4E7E9] grid items-center ">
+          <div className="md:col-span-3 p-6 border border-[#E4E7E9] hidden sm:block items-center ">
             <Link href="/browseallproducts">
             <Image src={shopimg} alt="shopimg" />
             </Link>
@@ -85,7 +85,7 @@ const BestDeals = () => {
 
           {/* products  */}
           <div className="md:col-span-9  rounded-md">
-            <div className="grid grid-cols-1 md:grid-cols-4">
+            <div className="grid grid-cols-2 sm:gap-0 gap-1 md:grid-cols-4">
             {products.slice(0, 8).map((product) => (
            <ProductCard key={product.id} product={product} />
            ))}

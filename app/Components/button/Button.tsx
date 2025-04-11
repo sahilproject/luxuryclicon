@@ -64,7 +64,7 @@ export const AddtoCartBtn = () => {
 export const ButtonBlack = () => {
     return (
       <Link href="/browseallproducts">
-      <button className="bg-[#EBC80C] border rounded-sm p-3 pl-4 w-auto flex justify-center items-center max-w-[160px] gap-x-1 cursor-pointer font-semibold text-black">
+      <button className="bg-[#EBC80C] border rounded-sm p-2 pl-4 w-auto flex justify-center items-center max-w-[160px] gap-x-1 cursor-pointer font-semibold text-black">
        SHOP NOW
       <GoArrowRight className="text-[20px] font-semibold text-black" />
       </button>

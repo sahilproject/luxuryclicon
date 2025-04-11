@@ -17,7 +17,7 @@ const Categories = () => {
           <h3 className="text-center py-6 text-[32px] font-semibold text-[#191C1F]">
             Shop with Categorys
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-x-2 text-center text-[#191C1F] font-semibold">
+          <div className="grid grid-cols-3 md:grid-cols-12 gap-2 text-center text-[#191C1F] font-semibold px-2">
             <div className="md:col-span-2 p-3 grid border border-[#E4E7E9] rounded-md place-items-center cursor-pointer">
            <Link href="browseallproducts">
               <Image src={c1} alt="c1" />

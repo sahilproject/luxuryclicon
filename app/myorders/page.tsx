@@ -154,6 +154,21 @@ export default function MyOrders() {
     fetchOrders();
   }, []);
 
+  const handleCancelOrder = async (orderId: string) => {
+    const confirmCancel = confirm("Are you sure you want to cancel this order?");
+    if (!confirmCancel) return;
+
+    const { error } = await supabase.from("orders").delete().eq("id", orderId);
+
+    if (error) {
+      alert("Failed to cancel order.");
+      console.error(error);
+    } else {
+      setOrders((prev) => prev.filter((order) => order.id !== orderId));
+      alert("Order canceled successfully.");
+    }
+  };
+
   if (loading) return <p className="text-center">Loading your orders...</p>;
 
   if (orders.length === 0)
@@ -174,6 +189,18 @@ export default function MyOrders() {
                 {order.status}
               </span>
             </div>
+
+            {/* Cancel Order Button for Pending Orders */}
+            {order.status === "pending" && (
+              <div className="flex justify-end">
+                <button
+                  onClick={() => handleCancelOrder(order.id)}
+                  className="text-red-600 text-sm underline cursor-pointer hover:text-red-800"
+                >
+                  Cancel Order
+                </button>
+              </div>
+            )}
 
             <div className="space-y-4">
               {order.details.map((item, idx) => (

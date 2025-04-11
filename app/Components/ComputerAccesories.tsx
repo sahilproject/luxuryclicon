@@ -40,7 +40,7 @@ const ComputerAccesories = () => {
     const { data, error } = await supabase.from("allproducts").select("*");
     if (!error && data) {
       setProducts(data);
-      setFilteredProducts(data); // Show all by default
+      setFilteredProducts(data);
     }
   };
 
@@ -53,7 +53,7 @@ const ComputerAccesories = () => {
 
   const filterProducts = () => {
     if (activeCategoryId === null) {
-      setFilteredProducts(products); // All Product selected
+      setFilteredProducts(products);
     } else {
       setFilteredProducts(
         products.filter((product) => product.category_id === activeCategoryId)
@@ -63,19 +63,19 @@ const ComputerAccesories = () => {
 
   return (
     <div>
-      <div className="container mx-auto pt-8">
+      <div className="container mx-auto pt-8 ">
         <div className="grid grid-cols-1 md:grid-cols-12 mt-8 gap-x-4">
           {/* Products Section */}
           <div className="md:col-span-9">
-            <div className="flex justify-between">
+            <div className="flex justify-between ">
               <h3 className="text-[24px] font-semibold text-[#191C1F]">
                 Computer Accessories
               </h3>
 
               {/* Category List */}
-              <div className="flex items-center">
-                <ul className="flex gap-4 text-[#191C1F] font-semibold">
-                  <li
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <ul className="hidden sm:flex flex-wrap gap-2 text-[#191C1F] font-semibold text-sm sm:text-base">
+              <li
                     className={`relative cursor-pointer ${
                       activeCategoryId === null
                         ? "text-orange-500"
@@ -90,6 +90,7 @@ const ComputerAccesories = () => {
                       }`}
                     ></span>
                   </li>
+
                   {categories.slice(0, 4).map((category) => (
                     <li
                       key={category.id}
@@ -102,38 +103,48 @@ const ComputerAccesories = () => {
                     >
                       {category.name}
                       <span
-                        className={`absolute left-0 bottom-0 h-[2px] bg-orange-500 ${
+                        className={`absolute left-0 bottom-0 h-[2px] bg-orange-500 transition-all duration-300 ${
                           activeCategoryId === category.id ? "w-full" : "w-0"
-                        } transition-all duration-300`}
+                        }`}
                       ></span>
                     </li>
                   ))}
                 </ul>
-                <Link href="/browseallproducts" className="flex">
-                <p className="text-[#FA8232] px-2 cursor-pointer">
-                  Browse All Product
-                </p>
-                <Image className="pt-1" src={arrowimg} alt="arrow" />
+
+                <Link
+                  href="/browseallproducts"
+                  className="flex items-center mt-2 sm:mt-0"
+                >
+                  <p className="text-[#FA8232] px-2 cursor-pointer text-sm sm:text-base">
+                    Browse All Product
+                  </p>
+                  <Image
+                    src={arrowimg}
+                    alt="arrow"
+                    className="pt-1 w-4 h-4 sm:w-5 sm:h-5"
+                  />
                 </Link>
               </div>
             </div>
 
             {/* Product Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-3 pt-9">
-            {filteredProducts.length > 0 ? (
-  filteredProducts.slice(0, 8).map((product) => (
-    <ProductCard key={product.id} product={product} />
-  ))
-) : (
-  <p className="text-gray-500 col-span-4 text-center">
-    No products found in this category.
-  </p>
-)}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-9 px-2">
+              {filteredProducts.length > 0 ? (
+                filteredProducts
+                  .slice(0, 8)
+                  .map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))
+              ) : (
+                <p className="text-gray-500 col-span-4 text-center">
+                  No products found in this category.
+                </p>
+              )}
             </div>
           </div>
 
           {/* Sidebar Images */}
-          <div className="md:col-span-3 grid items-center cursor-pointer gap-y-6">
+          <div className="md:col-span-3 hidden sm:block items-center cursor-pointer gap-y-6">
             <Image src={b2} alt="shopimg" />
             <Image src={b1} alt="shopimg" />
           </div>

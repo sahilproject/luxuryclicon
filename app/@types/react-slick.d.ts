@@ -3,4 +3,3 @@ declare module "react-slick" {
     export default Slider;
   }
   
-  

@@ -8,6 +8,7 @@ import '@/app/style/Style.css'
 import Link from "next/link";
 
 
+
 const Footer = () => {
   return (
     <div className="bg-[#191C1F] pt-[62px]">

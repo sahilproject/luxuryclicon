@@ -1,12 +1,12 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import { supabase } from '@/app/lib/supabaseClient';
-import { toast } from 'react-toastify';
-import Image from 'next/image';
-import { RxCross2 } from 'react-icons/rx';
-import { GoArrowLeft, GoArrowRight } from 'react-icons/go';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+"use client";
+import React, { useEffect, useState } from "react";
+import { supabase } from "@/app/lib/supabaseClient";
+import { toast } from "react-toastify";
+import Image from "next/image";
+import { RxCross2 } from "react-icons/rx";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface SupabaseCartItem {
   id: number;
@@ -29,17 +29,17 @@ export default function CartPage() {
       } = await supabase.auth.getUser();
 
       if (!user) {
-        toast.info('Please log in to see your cart.');
+        toast.info("Please log in to see your cart.");
         return;
       }
 
       const { data, error } = await supabase
-        .from('cart')
-        .select('*')
-        .eq('user_id', user.id);
+        .from("cart")
+        .select("*")
+        .eq("user_id", user.id);
 
       if (error) {
-        toast.error('Failed to fetch cart data.');
+        toast.error("Failed to fetch cart data.");
         return;
       }
 
@@ -53,9 +53,9 @@ export default function CartPage() {
     if (newQty < 1) return;
 
     const { error } = await supabase
-      .from('cart')
+      .from("cart")
       .update({ quantity: newQty })
-      .eq('id', id);
+      .eq("id", id);
 
     if (!error) {
       setCart((prev) =>
@@ -67,10 +67,10 @@ export default function CartPage() {
   };
 
   const removeFromCart = async (id: number) => {
-    const { error } = await supabase.from('cart').delete().eq('id', id);
+    const { error } = await supabase.from("cart").delete().eq("id", id);
     if (!error) {
       setCart((prev) => prev.filter((item) => item.id !== id));
-      toast.success('Item removed from cart!');
+      toast.success("Item removed from cart!");
     }
   };
 
@@ -86,7 +86,9 @@ export default function CartPage() {
   return (
     <div className="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
       <div className="w-full lg:w-2/3 border border-gray-200 rounded-md">
-        <h2 className="text-xl font-semibold p-4 border-b border-[#E4E7E9]">Shopping Cart</h2>
+        <h2 className="text-xl font-semibold p-4 border-b border-[#E4E7E9]">
+          Shopping Cart
+        </h2>
 
         {cart.length > 0 && (
           <div className="grid grid-cols-5 px-4 py-2 text-sm font-semibold text-gray-600 border-b border-[#E4E7E9] bg-gray-50">
@@ -176,28 +178,32 @@ export default function CartPage() {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span>Sub-total:</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>${subtotal > 0 ? subtotal.toFixed(2) : "0.00"}</span>
             </div>
+
             <div className="flex justify-between">
               <span>Shipping:</span>
               <span>Free</span>
             </div>
+
             <div className="flex justify-between">
               <span>Discount:</span>
-              <span>${discount.toFixed(2)}</span>
+              <span>${subtotal > 0 ? discount.toFixed(2) : "0.00"}</span>
             </div>
+
             <div className="flex justify-between">
               <span>Tax:</span>
-              <span>${tax.toFixed(2)}</span>
+              <span>${subtotal > 0 ? tax.toFixed(2) : "0.00"}</span>
             </div>
+
             <div className="flex justify-between font-bold pt-2 border-t">
               <span>Total:</span>
-              <span>${total.toFixed(2)} USD</span>
+              <span>${subtotal > 0 ? total.toFixed(2) : "0.00"} USD</span>
             </div>
           </div>
 
           <button
-            onClick={() => router.push('/checkoutpage')}
+            onClick={() => router.push("/checkoutpage")}
             className="mt-4 w-full flex justify-center items-center cursor-pointer bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-sm"
           >
             PROCEED TO CHECKOUT <GoArrowRight className="ml-2 " />

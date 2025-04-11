@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabaseClient";
 
+// sahil //
 
 const CheckoutForm = () => {
   const router = useRouter();
@@ -23,6 +24,8 @@ const CheckoutForm = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [dbCart, setDbCart] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState("Cash on Delivery");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -95,10 +98,6 @@ const CheckoutForm = () => {
     return `ORD-${datePart}-${randomPart}`;
   };
 
-
-  // const adminId = [...new Set(dbCart.map((item) => item.admin_id))]; 
-
-
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -107,7 +106,6 @@ const CheckoutForm = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
 
   const handlePlaceOrder = async () => {
     const requiredFields = [
@@ -120,17 +118,23 @@ const CheckoutForm = () => {
     const isValid = requiredFields.every(
       (field) => formData[field as keyof typeof formData].trim() !== ""
     );
-  
+
     if (!isValid) {
       alert("Please fill in all required fields.");
       return;
     }
-  
+
     const newOrderId = generateOrderId();
-  
+
+    const billingInfo = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      address: formData.address,
+      email: formData.email,
+      phone: formData.phone,
+    };
+
     try {
-   
-      
       const { error: orderError } = await supabase.from("orders").insert([
         {
           user_id: userId,
@@ -138,20 +142,20 @@ const CheckoutForm = () => {
           details: cart,
           total_amount: total,
           status: "pending",
+          payment_method: selectedPaymentMethod,
+          billing_info: billingInfo,
         },
       ]);
-      
 
-  
       if (orderError) {
         console.error("Error placing order:", orderError.message);
         alert("Something went wrong while placing the order.");
         return;
       }
-  
-      // clear cart from Supabase
+
+      // Clear cart from Supabase
       await supabase.from("cart").delete().eq("user_id", userId);
-  
+
       setOrderId(newOrderId);
       setOrderPlaced(true);
       clearCart();
@@ -160,11 +164,12 @@ const CheckoutForm = () => {
       alert("Unexpected error occurred.");
     }
   };
-  
 
   if (loading) {
     return (
-      <div className="text-center py-20 text-gray-500 text-lg">Loading checkout...</div>
+      <div className="text-center py-20 text-gray-500 text-lg">
+        Loading checkout...
+      </div>
     );
   }
 
@@ -190,9 +195,9 @@ const CheckoutForm = () => {
               </button>
             </Link>
             <Link href="/myorders">
-            <button className="px-5 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
-              VIEW ORDER →
-            </button>
+              <button className="px-5 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
+                VIEW ORDER →
+              </button>
             </Link>
           </div>
         </div>
@@ -265,8 +270,12 @@ const CheckoutForm = () => {
             className="border p-2 rounded border-[#E4E7E9]"
           >
             <option>City</option>
-            <option value="LA">Los Angeles</option>
             <option value="Kolkata">Kolkata</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Gujrat">Gujrat</option>
+            <option value="Manali">Manali</option>
           </select>
           <input
             name="zip"
@@ -300,51 +309,6 @@ const CheckoutForm = () => {
         </label>
 
         <div>
-          <h3 className="font-semibold mb-2">Payment Option</h3>
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
-            {paymentOptions.map((option) => (
-              <label
-                key={option.name}
-                className="flex flex-col items-center p-3 border border-[#E4E7E9] rounded cursor-pointer"
-              >
-                <span className="text-2xl">{option.icon}</span>
-                <span className="text-xs text-center">{option.name}</span>
-                <input
-                  type="radio"
-                  name="payment"
-                  checked={paymentMethod === option.name}
-                  onChange={() => setPaymentMethod(option.name)}
-                  className="mt-4"
-                />
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {paymentMethod === "Debit/Credit Card" && (
-          <div className="grid grid-cols-1 gap-4">
-            <input
-              placeholder="Name on Card"
-              className="border p-2 rounded border-[#E4E7E9]"
-            />
-            <input
-              placeholder="Card Number"
-              className="border p-2 rounded border-[#E4E7E9]"
-            />
-            <div className="grid grid-cols-2 gap-4">
-              <input
-                placeholder="DD/YY"
-                className="border p-2 rounded border-[#E4E7E9]"
-              />
-              <input
-                placeholder="CVC"
-                className="border p-2 rounded border-[#E4E7E9]"
-              />
-            </div>
-          </div>
-        )}
-
-        <div>
           <h3 className="font-semibold mb-2">Additional Information</h3>
           <textarea
             name="notes"
@@ -356,55 +320,84 @@ const CheckoutForm = () => {
         </div>
       </div>
 
-      {/* Order Summary */}
-      <div className="border border-[#E4E7E9] p-6 rounded-sm space-y-4 h-fit">
-        <h2 className="text-lg font-semibold">Order Summary</h2>
-        <div className="space-y-2">
-          {cart.map((item) => (
-            <div key={item.id} className="flex justify-between">
-              <div>
-                <p className="font-medium">{item.name}</p>
-                <p className="text-sm text-gray-500">
-                  {item.quantity ?? 1} x ${item.price.toFixed(2)}
-                </p>
+      {/* Order Summary & Payment */}
+
+      <div className="space-y-6 border border-[#E4E7E9] p-6 rounded-sm h-fit">
+        <h2 className="text-lg font-semibold">Your Order</h2>
+
+        {/* Product Details */}
+        <div className="space-y-4">
+          {cart.map((item, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-between text-sm"
+            >
+              <div className="flex items-center gap-3">
+                <img
+                  src={item.image_url}
+                  alt={item.name}
+                  className="w-12 h-12 object-cover rounded"
+                />
+                <div>
+                  <p className="font-medium">{item.name}</p>
+                  <p className="text-gray-500 text-xs">Qty: {item.quantity}</p>
+                </div>
               </div>
-              <img
-                src={item.image_url}
-                alt={item.name}
-                className="w-12 h-12 object-cover rounded"
-              />
+              <span className="font-medium">
+                ${(item.price * item.quantity).toFixed(2)}
+              </span>
             </div>
           ))}
         </div>
 
-        <div className="border-t pt-4 space-y-1 text-sm">
-          <div className="flex justify-between">
-            <span>Sub-total</span>
-            <span>${subtotal.toFixed(2)}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Shipping</span>
-            <span>Free</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Discount</span>
-            <span>-$24</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Tax</span>
-            <span>$61.99</span>
-          </div>
-          <div className="flex justify-between font-semibold text-lg pt-2">
-            <span>Total</span>
-            <span>${total.toFixed(2)} USD</span>
-          </div>
+        {/* Pricing Summary */}
+        <div className="flex justify-between text-sm text-gray-600 pt-2">
+          <span>Subtotal:</span>
+          <span>${subtotal > 0 ? subtotal.toFixed(2) : "0.00"}</span>
         </div>
 
+        <div className="flex justify-between text-sm text-gray-600">
+          <span>Discount:</span>
+          <span>${subtotal > 0 ? discount.toFixed(2) : "0.00"}</span>
+        </div>
+
+        <div className="flex justify-between text-sm text-gray-600">
+          <span>Tax:</span>
+          <span>${subtotal > 0 ? tax.toFixed(2) : "0.00"}</span>
+        </div>
+
+        <div className="border-t pt-4 flex justify-between font-semibold">
+          <span>Total:</span>
+          <span>
+            ${subtotal > 0 ? (subtotal - discount + tax).toFixed(2) : "0.00"}
+          </span>
+        </div>
+
+        {/* Payment Method Selection */}
+        <h3 className="text-sm font-medium mt-6">Select Payment Method:</h3>
+        <div className="grid grid-cols-1 gap-2">
+          {paymentOptions.map((option) => (
+            <button
+              key={option.name}
+              onClick={() => setSelectedPaymentMethod(option.name)}
+              className={`flex items-center gap-2 px-4 py-2 border rounded ${
+                selectedPaymentMethod === option.name
+                  ? "border-orange-500 bg-orange-50"
+                  : "border-[#E4E7E9]"
+              }`}
+            >
+              {option.icon}
+              {option.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Place Order Button */}
         <button
           onClick={handlePlaceOrder}
-          className="w-full flex justify-center items-center gap-x-1 cursor-pointer bg-orange-500 hover:bg-orange-600 text-white p-3 rounded font-semibold"
+          className="w-full mt-4 bg-orange-500 text-white py-2 rounded hover:bg-orange-600 transition-all"
         >
-          PLACE ORDER <GoArrowRight />
+          Place Order <GoArrowRight className="inline ml-1" />
         </button>
       </div>
     </div>

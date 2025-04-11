@@ -7,9 +7,8 @@ import React from "react";
 const Arrival = () => {
   return (
     <div className="container mx-auto py-[72px]">
-      <div className="grid grid-cols-1 lg:grid-cols-4 text-[#191C1F] items-center ">
+      <div className="grid grid-cols-2 lg:grid-cols-4 text-[#191C1F] items-center ">
         
-        {/* Map title */}
         {flashSaleData.map((section, index) => (
           <div key={index} className="p-3 grid gap-y-4">
             <h3 className="font-semibold">{section.title}</h3>

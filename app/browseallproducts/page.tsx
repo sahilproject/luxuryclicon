@@ -172,7 +172,7 @@ const Page = () => {
           </form>
 
           {/* Image Poster */}
-          <div className="mt-6 border-2 border-[#FFE7D6] rounded-lg overflow-hidden p-2 flex flex-col items-center gap-y-3">
+          <div className="mt-6 border-2 border-[#FFE7D6] rounded-lg overflow-hidden p-2 hidden sm:flex flex-col items-center gap-y-3">
           <Image src={postar1} alt="Poster 1" width={400} className="w-full" />
             <Image src={postar2} alt="Poster 2" width={400} className="w-full" />
             <AddtoCartBtn />
@@ -199,7 +199,7 @@ const Page = () => {
           </div>
 
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />

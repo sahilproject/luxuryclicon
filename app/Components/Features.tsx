@@ -11,21 +11,21 @@ const Features = () => {
   return (
     <div>
       <div className="container mx-auto p-4">
-        <div className="grid grid-cols-1 md:grid-cols-12 border border-[#E4E7E9] rounded-md">
+        <div className="grid grid-cols-2 md:grid-cols-12 border border-[#E4E7E9] rounded-md">
          
-          <div className="md:col-span-3 p-3 grid gap-y-4 w-full lg:border-r  border-gray-200">
+          <div className="md:col-span-3 p-3 grid w-full lg:border-r  border-gray-200">
             <Image src={feature} alt="feature" />
           </div>
 
-          <div className="md:col-span-3 p-3 grid gap-y-4 lg:border-r  border-gray-200">
+          <div className="md:col-span-3 p-3 grid lg:border-r  border-gray-200">
             <Image src={feature1} alt="feature" />
           </div>
 
-          <div className="md:col-span-3 p-3 grid gap-y-4 lg:border-r  border-gray-200">
+          <div className="md:col-span-3 p-3 grid lg:border-r  border-gray-200">
             <Image src={feature2} alt="feature" />
           </div>
 
-          <div className="md:col-span-3 p-3 grid gap-y-4 ">
+          <div className="md:col-span-3 p-3 grid ">
             <Image src={feature3} alt="feature" />
           </div>
           

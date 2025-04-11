@@ -85,7 +85,7 @@ const Cart: React.FC<CartProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="absolute top-12 right-25 w-[400px] bg-white shadow-lg rounded-lg p-4 z-50">
+    <div className="absolute top-12 right-2 sm:right-25 w-[400px] bg-white shadow-lg rounded-lg p-4 z-50">
       <h3 className="text-lg font-semibold mb-4">Shopping Cart</h3>
 
       {dbCart.length === 0 ? (
