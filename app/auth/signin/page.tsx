@@ -202,7 +202,7 @@ const Signin = ({ onClose }: { onClose: () => void }) => {
       <div className="flex items-center justify-center my-4">
         <div className="flex-1 h-px bg-gray-400 rounded-md"></div>
         <span className="text-gray-600 px-2 whitespace-nowrap">
-          Don't have an account?
+        Don&apos;t have an account?{" "}
         </span>
         <div className="flex-1 h-px bg-gray-400 rounded-md"></div>
       </div>

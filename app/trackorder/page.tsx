@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "../lib/supabaseClient";
+import Image from "next/image";
 
 type OrderType = {
   order_id: string;
@@ -91,9 +92,11 @@ const TrackOrderPage = () => {
                   key={index}
                   className=" rounded  flex items-center gap-4 bg-white"
                 >
-                  <img
+                  <Image
                     src={item.image_url}
                     alt={`Product ${index + 1}`}
+                    height={100}
+                    width={100}
                     className="w-full h-50 object-cover rounded"
                   />
                 </div>

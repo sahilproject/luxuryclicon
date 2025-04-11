@@ -6,6 +6,37 @@ import Image from "next/image";
 import { supabase } from "../lib/supabaseClient";
 import { toast } from "react-hot-toast";
 
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  image_url?: string;
+};
+
+export type CartItem = {
+  user_id: string;
+  product_id: number;
+  name: string;
+  price: number;
+  image_url?: string;
+  quantity: number;
+};
+
+type WishlistItem = {
+  id: number;
+  user_id: string;
+  product_id: number;
+  name: string;
+  price: number;
+  oldPrice?: number;
+  image_url?: string;
+  quantity?: number;
+};
+
+
+
+
 export default function WishlistTable() {
   const context = useContext(cartContext);
   const [userId, setUserId] = useState<string | null>(null);
@@ -28,7 +59,7 @@ export default function WishlistTable() {
 
   const { wishList, removeFromWishlist, addToCart } = context;
 
-  const handleAddToCart = async (item: any) => {
+  const handleAddToCart = async (item: Product) => {
     if (!userId) return toast.error("User not logged in");
 
     addToCart(item);
@@ -59,7 +90,7 @@ export default function WishlistTable() {
     }
   };
 
-  const handleRemoveFromWishlist = async (item: any) => {
+  const handleRemoveFromWishlist = async (item: WishlistItem) => {
     removeFromWishlist(item.id);
 
     const { error } = await supabase
@@ -75,6 +106,9 @@ export default function WishlistTable() {
       toast.success("Item removed from wishlist");
     }
   };
+
+
+
 
   return (
     <div className="max-w-6xl mx-auto my-10 border border-[#E4E7E9]">
@@ -102,8 +136,8 @@ export default function WishlistTable() {
               <tr key={item.id} className="border-b border-[#E4E7E9]">
                 <td className="px-4 py-4 flex items-start gap-4">
                   <Image
-                    src={item.image_url}
-                    alt={item.name}
+        src={item.image_url || "/placeholder.png"}
+        alt={item.name}
                     width={64}
                     height={64}
                     className="object-contain"

@@ -43,15 +43,7 @@ const Page = () => {
     max: number | null;
   }>({ min: null, max: null });
 
-  useEffect(() => {
-    fetchCategories();
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    applyFilters();
-  }, [activeCategoryId, products, searchQuery, selectedPriceRange]);
-
+  
   const fetchProducts = async () => {
     const { data, error } = await supabase.from("allproducts").select("*");
     if (!error && data) {
@@ -95,6 +87,14 @@ const Page = () => {
     applyFilters();
   };
 
+  useEffect(() => {
+    fetchCategories();
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    applyFilters();
+  }, [activeCategoryId, products, searchQuery, selectedPriceRange]);
 
   
 

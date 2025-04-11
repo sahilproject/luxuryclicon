@@ -13,12 +13,24 @@ import Link from "next/link";
 import { supabase } from "../lib/supabaseClient";
 
 
+type CartItem = {
+  id: number;
+  product_id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image_url?: string;
+  user_id?: string;
+  // add other fields from your "cart" table if needed
+};
+
+
 const CheckoutForm = () => {
 
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
-  const [dbCart, setDbCart] = useState<any[]>([]);
+  const [dbCart, setDbCart] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =useState("Cash on Delivery");
 
