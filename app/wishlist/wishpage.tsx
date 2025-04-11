@@ -10,6 +10,16 @@ interface CartProps {
   onClose: () => void;
 }
 
+
+type WishListItem = {
+  id: string;
+  product_name: string;
+  image_url: string;
+  price: number;
+  quantity: number;
+};
+
+
 const Wishpage: React.FC<CartProps> = ({ onClose }) => {
   const context = useContext(cartContext);
 
