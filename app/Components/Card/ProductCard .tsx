@@ -37,12 +37,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const { addToCart, addTowishList } = context;
 
-
-
   
   useEffect(() => {
     const fetchReviews = async () => {
-      if (!product?.name) return;
+      if (!product || !product.name) return;
   
       const { data, error } = await supabase
         .from("reviews")

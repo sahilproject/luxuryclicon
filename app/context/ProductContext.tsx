@@ -9,7 +9,6 @@ interface Product {
   price: number;
   image_url?: string;
   quantity?: number;
-  oldPrice?: number;
 }
 
 type WishlistItem = {
@@ -18,7 +17,6 @@ type WishlistItem = {
   product_id: number;
   name: string;
   price: number;
-  oldPrice?: number;
   image_url?: string;
   quantity?: number;
 };
@@ -61,14 +59,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         .eq("user_id", user_id);
 
       if (cartData) {
-        const formattedCart = cartData.map((item) => ({
-          id: item.product_id,
-          name: item.name,
-          price: item.price,
-          image_url: item.image_url,
-          quantity: item.quantity ?? 1,
-        }));
-        setCart(formattedCart);
+        setCart(
+          cartData.map((item) => ({
+            id: item.product_id,
+            name: item.name,
+            price: item.price,
+            image_url: item.image_url,
+            quantity: item.quantity ?? 1,
+          }))
+        );
       } else if (cartError) {
         console.error("Failed to load cart:", cartError.message);
         toast.error("Could not load your cart!");
@@ -77,7 +76,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       // Fetch Wishlist
       const { data: wishlistData, error: wishlistError } = await supabase
         .from("wishlist")
-        .select("user_id, product_id, name, price, image_url, quantity, oldPrice")
+        .select("user_id, product_id, name, price, image_url, quantity")
         .eq("user_id", user_id);
 
       if (wishlistData) {
@@ -90,7 +89,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
             price: item.price,
             image_url: item.image_url,
             quantity: item.quantity ?? 1,
-            oldPrice: item.oldPrice ?? undefined,
           }))
         );
       } else if (wishlistError) {
@@ -106,35 +104,28 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const {
       data: { session },
     } = await supabase.auth.getSession();
-
     if (!session?.user) return;
 
     setCart((prevCart) => {
       const existing = prevCart.find((item) => item.id === product.id);
-      let updatedCart;
-
-      if (existing) {
-        updatedCart = prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: (item.quantity || 1) + 1 }
-            : item
-        );
-      } else {
-        updatedCart = [...prevCart, { ...product, quantity: 1 }];
-      }
+      const updatedCart = existing
+        ? prevCart.map((item) =>
+            item.id === product.id
+              ? { ...item, quantity: (item.quantity || 1) + 1 }
+              : item
+          )
+        : [...prevCart, { ...product, quantity: 1 }];
 
       supabase.from("cart").upsert(
         {
           user_id: session.user.id,
           product_id: product.id,
-          quantity: existing ? (existing.quantity ?? 1) + 1 : 1,
           name: product.name,
           price: product.price,
           image_url: product.image_url,
+          quantity: existing ? (existing.quantity ?? 1) + 1 : 1,
         },
-        {
-          onConflict: "user_id,product_id",
-        }
+        { onConflict: "user_id,product_id" }
       );
 
       return updatedCart;
@@ -144,7 +135,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const updateQuantity = (id: number, quantity: number) => {
     if (quantity < 1) return;
     setCart((prevCart) =>
-      prevCart.map((item) => (item.id === id ? { ...item, quantity } : item))
+      prevCart.map((item) =>
+        item.id === id ? { ...item, quantity } : item
+      )
     );
   };
 
@@ -158,26 +151,22 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const {
       data: { session },
     } = await supabase.auth.getSession();
-
     if (!session?.user) return;
 
-    setWishList((prev) => {
-      const exists = prev.find((item) => item.id === product.id);
-      if (exists) return prev;
-      return [
-        ...prev,
-        {
-          id: product.id,
-          product_id: product.id,
-          user_id: session.user.id,
-          name: product.name,
-          price: product.price,
-          image_url: product.image_url,
-          quantity: 1,
-          oldPrice: product.oldPrice,
-        },
-      ];
-    });
+    const exists = wishList.find((item) => item.product_id === product.id);
+    if (exists) return;
+
+    const newWishItem: WishlistItem = {
+      id: product.id,
+      product_id: product.id,
+      user_id: session.user.id,
+      name: product.name,
+      price: product.price,
+      image_url: product.image_url,
+      quantity: 1,
+    };
+
+    setWishList((prev) => [...prev, newWishItem]);
 
     await supabase.from("wishlist").upsert(
       {
@@ -187,11 +176,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         price: product.price,
         image_url: product.image_url,
         quantity: 1,
-        oldPrice: product.oldPrice,
       },
-      {
-        onConflict: "user_id,product_id",
-      }
+      { onConflict: "user_id,product_id" }
     );
   };
 
@@ -199,10 +185,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const {
       data: { session },
     } = await supabase.auth.getSession();
-
     if (!session?.user) return;
 
-    setWishList((prev) => prev.filter((item) => item.id !== id));
+    setWishList((prev) => prev.filter((item) => item.product_id !== id));
 
     await supabase
       .from("wishlist")
