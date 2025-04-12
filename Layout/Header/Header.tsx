@@ -40,17 +40,17 @@ type Product = {
   category_id: number;
 };
 
-type HeaderProps = {
-  categories: Category[];
-  onSelect: (categoryId: number) => void;
-};
+// type HeaderProps = {
+//   categories: Category[];
+//   onSelect: (categoryId: number) => void;
+// };
 
-type Category = {
-  id: number;
-  name: string;
-};
+// type Category = {
+//   id: number;
+//   name: string;
+// };
 
-const Header: React.FC<HeaderProps> = ({ onSelect }) => {
+const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [islogin, setIslogin] = useState(false);
@@ -163,6 +163,7 @@ const Header: React.FC<HeaderProps> = ({ onSelect }) => {
     }
   }, []);
 
+  
   // for serching products //
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;

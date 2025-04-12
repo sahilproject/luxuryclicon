@@ -15,10 +15,12 @@ type SignUpFormData = {
   password: string;
 };
 
+interface SignupProps {
+  onClose: () => void;
+}
 
 
-
-const Signup = ({ onClose }: { onClose: () => void }) => {
+const Signup: React.FC<SignupProps> = ({ onClose }) => {
 
 
   const [issignin, setIssignin] = useState(false);

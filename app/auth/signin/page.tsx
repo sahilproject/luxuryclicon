@@ -16,9 +16,15 @@ type SignUpFormData = {
   password: string;
 };
 
-const Signin = ({ onClose }: { onClose: () => void }) => {
+interface SigninProps {
+  onClose: () => void;
+}
+
+
+const Signin: React.FC<SigninProps> = ({ onClose }) => {
   const [issignup, setIssignup] = useState(false);
   const [loading, setLoading] = useState(false);
+  
 
   const {
     register,
@@ -62,6 +68,7 @@ const Signin = ({ onClose }: { onClose: () => void }) => {
       router.push("/dashboard");
       router.refresh();
       setLoading(false); // Stop loading
+
     } else {
       toast.error("Access denied: Unknown role");
     }
@@ -108,6 +115,7 @@ const Signin = ({ onClose }: { onClose: () => void }) => {
     addProductFromStorage();
   }, []);
 
+  
   return (
     <div className="absolute top-12 right-0 w-100 bg-white shadow-lg rounded-lg p-4">
       <h3 className="text-lg mt-5 font-semibold text-center">
