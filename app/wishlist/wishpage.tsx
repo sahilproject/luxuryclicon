@@ -54,7 +54,7 @@ const Wishpage: React.FC<CartProps> = ({ onClose }) => {
                 height={200}
               />
               <span className="ml-1">{item.name}</span>
-              <span className="font-bold">{item.price}</span>
+              <span className="font-bold">${item.price}</span>
               <button
                 onClick={() => removeFromWishlist(item.id)}
                 className="mx-4 cursor-pointer"

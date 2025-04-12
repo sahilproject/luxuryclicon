@@ -1,15 +1,11 @@
-"use client"; // Make sure this is the very first line
+"use client";
 
 import React, { useState } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-type LoginProps = {
-  onSuccess: () => void;
-};
-
-const Login: React.FC<LoginProps> = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -24,7 +20,7 @@ const Login: React.FC<LoginProps> = () => {
       toast.error("Login failed");
       return;
     }
-  //  check the table admin available or not //
+
     const { data: adminData } = await supabase
       .from("admins")
       .select("*")
@@ -39,8 +35,6 @@ const Login: React.FC<LoginProps> = () => {
       toast.error("Access denied: Not an admin");
     }
   };
-
-  
 
   return (
     <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50">
