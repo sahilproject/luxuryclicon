@@ -28,6 +28,17 @@ const ComputerAccesories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
  
+  useEffect(() => {
+    filterProducts();
+  }, [activeCategoryId, products]);
+
+  useEffect(() => {
+    fetchCategories();
+    fetchProducts();
+  }, []);
+
+
+
   const fetchProducts = async () => {
     const { data, error } = await supabase.from("allproducts").select("*");
     if (!error && data) {
@@ -52,14 +63,6 @@ const ComputerAccesories = () => {
       );
     }
   };
- useEffect(() => {
-    filterProducts();
-  }, [activeCategoryId, products,filterProducts]);
-
-  useEffect(() => {
-    fetchCategories();
-    fetchProducts();
-  }, [fetchProducts, fetchCategories]);
 
 
 

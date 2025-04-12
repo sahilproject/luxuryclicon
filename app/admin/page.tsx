@@ -203,11 +203,6 @@ const Dashboard = () => {
 
 
   //--------- for order status start----------//
-  // const updateOrderStatus = async (id: number, status: string) => {
-  //   await supabase.from("orders").update({ status }).eq("id", id);
-  //   fetchOrders();
-  //   toast.success(`Order status updated to ${status}`);
-  // };
 
   const updateOrderStatus = async (id: string, status: string) => {
     const { error } = await supabase.from("orders").update({ status }).eq("id", id);
@@ -319,6 +314,7 @@ const Dashboard = () => {
         }
       }
     } catch (error) {
+      console.log(error)
       toast.error("Error saving product");
     }
   };
@@ -340,6 +336,7 @@ const Dashboard = () => {
       fetchProducts();
       toast.success("Product deleted successfully");
     } catch (error) {
+      console.log(error)
       toast.error("Error deleting product");
     }
   };
@@ -364,6 +361,8 @@ const Dashboard = () => {
     setShowLoginPopup(true);
     toast.success("Logged out successfully");
   };
+
+
 
   return (
     <div className="flex min-h-screen container gap-4">
@@ -699,7 +698,7 @@ const Dashboard = () => {
                       <div className="flex gap-2">
                         <button
                           type="submit"
-                          className="bg-blue-500 text-white px-4 py-2 rounded"
+                          className="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded"
                         >
                           {editId ? "Update" : "Submit"}
                         </button>
@@ -707,7 +706,7 @@ const Dashboard = () => {
                           <button
                             type="button"
                             onClick={resetForm}
-                            className="bg-gray-500 text-white px-4 py-2 rounded"
+                            className="bg-gray-500 cursor-pointer text-white px-4 py-2 rounded"
                           >
                             Cancel
                           </button>

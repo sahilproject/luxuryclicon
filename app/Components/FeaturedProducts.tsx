@@ -26,6 +26,16 @@ const FeaturedProducts = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
+  useEffect(() => {
+    filterProducts();
+  }, [activeCategoryId, products]);
+
+  useEffect(() => {
+    fetchCategories();
+    fetchProducts();
+  }, []);
+
+
   const fetchProducts = async () => {
     const { data, error } = await supabase.from("allproducts").select("*");
     if (!error && data) {
@@ -51,14 +61,7 @@ const FeaturedProducts = () => {
     }
   };
 
-  useEffect(() => {
-    filterProducts();
-  }, [activeCategoryId, products,filterProducts]);
 
-  useEffect(() => {
-    fetchCategories();
-    fetchProducts();
-  }, [fetchProducts, fetchCategories]);
 
   return (
     <div>

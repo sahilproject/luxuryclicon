@@ -73,51 +73,7 @@ const Header: React.FC<HeaderProps> = ({ onSelect }) => {
   const widgetRef = useRef<HTMLDivElement>(null);
 
   // login user and access //
-  // const getSessionAndRole = async () => {
-  //   const {
-  //     data: { session },
-  //   } = await supabase.auth.getSession();
-
-  //   setSession(session);
-
-  //   if (session?.user) {
-  //     const { data, error } = await supabase
-  //       .from("profiles")
-  //       .select("role")
-  //       .eq("id", session.user.id)
-  //       .single();
-
-  //     if (error) {
-  //       console.error("Error fetching role:", error.message);
-  //     } else {
-  //       setRole(data?.role);
-  //     }
-  //   }
-  //   setLoading(false);
-  // };
-
-  // const getSessionAndRole = async () => {
-  //   const {
-  //     data: { session },
-  //   } = await supabase.auth.getSession();
-
-  //   setSession(session);
-
-  //   if (session?.user) {
-  //     const { data, error } = await supabase
-  //       .from("profiles")
-  //       .select("role")
-  //       .eq("id", session.user.id)
-  //       .single();
-
-  //     if (error) {
-  //       console.error("Error fetching role:", error.message);
-  //     } else {
-  //       setRole(data?.role);
-  //     }
-  //   }
-  //   setLoading(false);
-  // };
+  
 
   const getSessionAndRole = async () => {
     const {
@@ -151,7 +107,6 @@ const Header: React.FC<HeaderProps> = ({ onSelect }) => {
   const [searchResults, setSearchResults] = useState<Product[]>([]);
 
   // for category  dropdown //
-  const [open, setOpen] = useState(false);
   const router = useRouter();
 
   // cartbadge //
@@ -487,11 +442,13 @@ const Header: React.FC<HeaderProps> = ({ onSelect }) => {
                   className="relative"
                 >
                   <IoCartOutline className="text-white text-2xl sm:text-3xl cursor-pointer font-semibold" />
-                  {totalCartItems > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
-                      {totalCartItems}
-                    </span>
-                  )}
+                  {
+  totalCartItems > 0 ? (
+    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
+      {totalCartItems}
+    </span>
+  ) : null
+}
                 </button>
 
                 <button

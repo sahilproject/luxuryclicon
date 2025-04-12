@@ -192,9 +192,9 @@ const Signin = ({ onClose }: { onClose: () => void }) => {
               />
             </svg>
           ) : (
-            <button className="flex justify-center items-center">
+            <p className="flex justify-center items-center">
               LOGIN <GoArrowRight className="ml-1 text-1xl" />
-              </button>
+              </p>
           )}
         </button>
       </form>

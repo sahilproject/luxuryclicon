@@ -60,10 +60,12 @@ const Cart: React.FC<CartProps> = ({ onClose }) => {
     fetchUserCart();
   }, []);
   
+
   const handleRemove = async (id: number) => {
     const { error } = await supabase.from("cart").delete().eq("id", id);
 
     if (!error) {
+
       setDbCart((prev) => prev.filter((item) => item.id !== id));
       toast.success("Item removed from cart!");
     } else {
@@ -72,6 +74,7 @@ const Cart: React.FC<CartProps> = ({ onClose }) => {
     }
   };
 
+  
   const subtotal = dbCart.reduce((acc, item) => {
     return acc + Number(item.price) * item.quantity;
   }, 0);

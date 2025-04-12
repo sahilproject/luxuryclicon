@@ -12,6 +12,8 @@ interface Product {
   oldPrice?: number;
 }
 
+
+
 interface CartContextType {
   cart: Product[];
   wishList: Product[];
@@ -22,6 +24,8 @@ interface CartContextType {
   addTowishList: (product: Product) => void;
   removeFromWishlist: (id: number) => void;
 }
+
+
 
 export const cartContext = createContext<CartContextType | null>(null);
 

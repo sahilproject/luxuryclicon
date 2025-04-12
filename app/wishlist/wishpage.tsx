@@ -12,9 +12,9 @@ interface CartProps {
 
 
 
-
 const Wishpage: React.FC<CartProps> = ({ onClose }) => {
   const context = useContext(cartContext);
+  const router = useRouter();
 
   if (!context) {
     console.error("Error: Cart must be used within a CartProvider");
@@ -23,7 +23,6 @@ const Wishpage: React.FC<CartProps> = ({ onClose }) => {
 
   const { wishList, removeFromWishlist } = context;
 
-  const router = useRouter();
 
   const handleNavigation = () => {
     onClose();
