@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import shopimg from "../../public/assets/productimg/Image.svg";
@@ -10,8 +10,6 @@ import ProductCard from "../Components/Card/ProductCard ";
 import { supabase } from "@/app/lib/supabaseClient";
 import Link from "next/link";
 
-
-
 type Product = {
   id: number;
   name: string;
@@ -20,20 +18,18 @@ type Product = {
 };
 
 const BestDeals = () => {
+  const [products, setProducts] = useState<Product[]>([]);
 
-   const [products, setProducts] = useState<Product[]>([]);
-    
-      // console.log(products)
-  
-        useEffect(() => {
-          fetchProducts();
-        },[]);
-        
-        const fetchProducts = async () => {
-            const { data, error } = await supabase.from("allproducts").select("*");
-            if (!error && data) setProducts(data);
-          };
-  
+  // console.log(products)
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    const { data, error } = await supabase.from("allproducts").select("*");
+    if (!error && data) setProducts(data);
+  };
 
   return (
     <div>
@@ -43,10 +39,10 @@ const BestDeals = () => {
             <h3 className="text-[24px] font-semibold">Best Deals</h3>
           </div>
           <Link href="/browseallproducts">
-          <div className="flex justify-center items-center cursor-pointer">
-            <p className="text-[#2DA5F3] pr-2"> Browse All Product </p>
-             <GoArrowRight className="text-[20px] font-semibold text-[#2DA5F3]" />
-          </div>
+            <div className="flex justify-center items-center cursor-pointer">
+              <p className="text-[#2DA5F3] pr-2"> Browse All Product </p>
+              <GoArrowRight className="text-[20px] font-semibold text-[#2DA5F3]" />
+            </div>
           </Link>
         </div>
 
@@ -54,7 +50,7 @@ const BestDeals = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 mt-4 ">
           <div className="md:col-span-3 p-6 border border-[#E4E7E9] hidden sm:block items-center ">
             <Link href="/browseallproducts">
-            <Image src={shopimg} alt="shopimg" />
+              <Image src={shopimg} alt="shopimg" />
             </Link>
             <p>Rating</p>
             <p className="text-[#191C1F] font-normal">
@@ -73,7 +69,7 @@ const BestDeals = () => {
               <div className="bg-[#FFE7D6] p-3 cursor-pointer">
                 <Image src={hearticon} alt="heart" />
               </div>
-              <button  className="bg-[#FA8232] p-3 flex gap-x-1 cursor-pointer">
+              <button className="bg-[#FA8232] p-3 flex gap-x-1 cursor-pointer">
                 <Image src={carticon} alt="cart" />
                 <p className="font-semibold text-white">ADD TO CART</p>
               </button>
@@ -86,9 +82,9 @@ const BestDeals = () => {
           {/* products  */}
           <div className="md:col-span-9  rounded-md">
             <div className="grid grid-cols-2 sm:gap-0 gap-1 md:grid-cols-4">
-            {products.slice(0, 8).map((product) => (
-           <ProductCard key={product.id} product={product} />
-           ))}
+              {products.slice(0, 8).map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
             </div>
           </div>
         </div>
