@@ -16,12 +16,9 @@ type SignUpFormData = {
   password: string;
 };
 
-interface SigninProps {
-  onClose: () => void;
-}
 
 
-const Signin: React.FC<SigninProps> = ({ onClose }) => {
+const Signin = () => {
   const [issignup, setIssignup] = useState(false);
   const [loading, setLoading] = useState(false);
   
@@ -64,7 +61,6 @@ const Signin: React.FC<SigninProps> = ({ onClose }) => {
 
     if (userData.role === "user") {
       toast.success("User login successful");
-      onClose();
       router.push("/dashboard");
       router.refresh();
       setLoading(false); // Stop loading
