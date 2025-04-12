@@ -16,9 +16,12 @@ type SignUpFormData = {
   password: string;
 };
 
+interface SigninProps {
+  onClose: () => void;
+}
 
 
-const Signin = () => {
+export default function Signin({ onClose }:SigninProps) {
   const [issignup, setIssignup] = useState(false);
   const [loading, setLoading] = useState(false);
   
@@ -61,6 +64,7 @@ const Signin = () => {
 
     if (userData.role === "user") {
       toast.success("User login successful");
+      onClose();
       router.push("/dashboard");
       router.refresh();
       setLoading(false); // Stop loading
@@ -224,4 +228,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+// export default Signin;

@@ -20,7 +20,7 @@ interface SignupProps {
 }
 
 
-const Signup: React.FC<SignupProps> = ({ onClose }) => {
+ export default function Signup({ onClose }:SignupProps){
 
 
   const [issignin, setIssignin] = useState(false);
@@ -182,4 +182,4 @@ const Signup: React.FC<SignupProps> = ({ onClose }) => {
   );
 };
 
-export default Signup;
+// export default Signup;
