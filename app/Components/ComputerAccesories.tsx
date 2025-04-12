@@ -135,7 +135,7 @@ const ComputerAccesories = () => {
               </div>
             </div>
 
-            {/* Product Grid */}
+            {/* Product */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-9 px-2">
               {filteredProducts.length > 0 ? (
                 filteredProducts

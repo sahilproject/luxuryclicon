@@ -37,11 +37,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const { addToCart, addTowishList } = context;
 
-  
   useEffect(() => {
-    const fetchReviews = async () => {
-      if (!product || !product.name) return;
+    if (!product || !product.name) return;
   
+    const fetchReviews = async () => {
       const { data, error } = await supabase
         .from("reviews")
         .select("rating")
@@ -62,6 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     fetchReviews();
   }, [product?.name]);
   
+
 
   const handleAddToCart = async () => {
     const {
@@ -114,6 +114,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const handleIncrement = () => setQuantity((prev) => prev + 1);
   const handleDecrement = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+
 
   return (
     <>
