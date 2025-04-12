@@ -37,32 +37,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const { addToCart, addTowishList } = context;
 
-  // useEffect(() => {
-  //   const fetchReviews = async () => {
-  //     const { data, error } = await supabase
-  //       .from("reviews")
-  //       .select("rating")
-  //       .eq("product_name", product.name);
 
-  //     if (error) {
-  //       console.error("Error fetching reviews:", error.message);
-  //     } else if (data.length > 0) {
-  //       const ratings = data.map((r) => r.rating);
-  //       const total = ratings.length;
-  //       const average = ratings.reduce((sum, val) => sum + val, 0) / total;
 
-  //       setTotalReviews(total);
-  //       setAverageRating(Number(average.toFixed(1)));
-  //     }
-  //   };
-
-  //   fetchReviews();
-  // }, [product.name]);
-
-  useEffect(() => {
-    if (!product?.name) return;
   
+  useEffect(() => {
     const fetchReviews = async () => {
+      if (!product?.name) return;
+  
       const { data, error } = await supabase
         .from("reviews")
         .select("rating")

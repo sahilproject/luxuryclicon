@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import postar1 from "../../public/assets/postar1.svg";
 import ProductCard from "./Card/ProductCard ";
 import { GoArrowRight } from "react-icons/go";
@@ -26,9 +26,6 @@ const FeaturedProducts = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  useEffect(() => {
-    filterProducts();
-  }, [activeCategoryId, products]);
 
   useEffect(() => {
     fetchCategories();
@@ -51,7 +48,7 @@ const FeaturedProducts = () => {
     }
   };
 
-  const filterProducts = () => {
+  const filterProducts = useCallback(() => {
     if (activeCategoryId === null) {
       setFilteredProducts(products);
     } else {
@@ -59,8 +56,11 @@ const FeaturedProducts = () => {
         products.filter((product) => product.category_id === activeCategoryId)
       );
     }
-  };
+  }, [activeCategoryId, products]);
 
+  useEffect(() => {
+    filterProducts();
+  }, [activeCategoryId, products,filterProducts]);
 
 
   return (

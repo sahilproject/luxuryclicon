@@ -6,7 +6,6 @@ import Image from "next/image";
 import { supabase } from "../lib/supabaseClient";
 import { toast } from "react-hot-toast";
 
-
 type Product = {
   id: number;
   name: string;
@@ -34,12 +33,10 @@ type WishlistItem = {
   quantity?: number;
 };
 
-
-
-
 export default function WishlistTable() {
   const context = useContext(cartContext);
   const [userId, setUserId] = useState<string | null>(null);
+
 
   // Get logged-in user ID
   useEffect(() => {
@@ -97,7 +94,7 @@ export default function WishlistTable() {
       .from("wishlist")
       .delete()
       .eq("user_id", userId)
-      .eq("product_id", item.id);
+      .eq("product_id", item.product_id);
 
     if (error) {
       toast.error("Failed to remove from wishlist");
@@ -106,9 +103,6 @@ export default function WishlistTable() {
       toast.success("Item removed from wishlist");
     }
   };
-
-
-
 
   return (
     <div className="max-w-6xl mx-auto my-10 border border-[#E4E7E9]">
@@ -132,12 +126,12 @@ export default function WishlistTable() {
               </td>
             </tr>
           ) : (
-            wishList.map((item: any) => (
+            wishList.map((item: WishlistItem) => (
               <tr key={item.id} className="border-b border-[#E4E7E9]">
                 <td className="px-4 py-4 flex items-start gap-4">
                   <Image
-        src={item.image_url || "/placeholder.png"}
-        alt={item.name}
+                    src={item.image_url || "/placeholder.png"}
+                    alt={item.name}
                     width={64}
                     height={64}
                     className="object-contain"

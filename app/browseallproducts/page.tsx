@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ProductCard from "../Components/Card/ProductCard ";
 import { supabase } from "../lib/supabaseClient";
 import glass from "@/public/assets/glass.svg";
@@ -43,6 +43,11 @@ const Page = () => {
     max: number | null;
   }>({ min: null, max: null });
 
+
+  useEffect(() => {
+    fetchCategories();
+    fetchProducts();
+  }, []);
   
   const fetchProducts = async () => {
     const { data, error } = await supabase.from("allproducts").select("*");
@@ -59,19 +64,19 @@ const Page = () => {
     }
   };
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let result = [...products];
-
+  
     if (activeCategoryId !== null) {
       result = result.filter((product) => product.category_id === activeCategoryId);
     }
-
+  
     if (searchQuery.trim()) {
       result = result.filter((product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
-
+  
     if (selectedPriceRange.min !== null && selectedPriceRange.max !== null) {
       result = result.filter(
         (product) =>
@@ -79,23 +84,22 @@ const Page = () => {
           product.price <= (selectedPriceRange.max ?? Infinity)
       );
     }
-
+  
     setFilteredProducts(result);
-  };
+  }, [products, activeCategoryId, searchQuery, selectedPriceRange]);
+  
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
+  
 
   const handleSearch = () => {
     applyFilters();
   };
 
-  useEffect(() => {
-    fetchCategories();
-    fetchProducts();
-  }, []);
+  
 
-  useEffect(() => {
-    applyFilters();
-  }, [activeCategoryId, products, searchQuery, selectedPriceRange]);
-
+ 
   
 
   return (

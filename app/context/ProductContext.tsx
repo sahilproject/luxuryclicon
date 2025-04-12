@@ -12,11 +12,20 @@ interface Product {
   oldPrice?: number;
 }
 
-
+type WishlistItem = {
+  id: number;
+  user_id: string;
+  product_id: number;
+  name: string;
+  price: number;
+  oldPrice?: number;
+  image_url?: string;
+  quantity?: number;
+};
 
 interface CartContextType {
   cart: Product[];
-  wishList: Product[];
+  wishList: WishlistItem[];
   addToCart: (product: Product) => void;
   removeFromCart: (id: number) => void;
   clearCart: () => void;
@@ -25,16 +34,13 @@ interface CartContextType {
   removeFromWishlist: (id: number) => void;
 }
 
-
-
 export const cartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<Product[]>([]);
-  const [wishList, setWishList] = useState<Product[]>([]);
+  const [wishList, setWishList] = useState<WishlistItem[]>([]);
   const hasFetched = useRef(false);
 
-  // Fetch cart on login
   useEffect(() => {
     const fetchData = async () => {
       if (hasFetched.current) return;
@@ -44,54 +50,58 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         data: { session },
       } = await supabase.auth.getSession();
 
-      if (session?.user) {
-        // Fetch Cart
-        const { data: cartData, error: cartError } = await supabase
-          .from("cart")
-          .select("*")
-          .eq("user_id", session.user.id);
+      if (!session?.user) return;
 
-        if (cartData) {
-          const formattedCart = cartData.map((item) => ({
+      const user_id = session.user.id;
+
+      // Fetch Cart
+      const { data: cartData, error: cartError } = await supabase
+        .from("cart")
+        .select("*")
+        .eq("user_id", user_id);
+
+      if (cartData) {
+        const formattedCart = cartData.map((item) => ({
+          id: item.product_id,
+          name: item.name,
+          price: item.price,
+          image_url: item.image_url,
+          quantity: item.quantity ?? 1,
+        }));
+        setCart(formattedCart);
+      } else if (cartError) {
+        console.error("Failed to load cart:", cartError.message);
+        toast.error("Could not load your cart!");
+      }
+
+      // Fetch Wishlist
+      const { data: wishlistData, error: wishlistError } = await supabase
+        .from("wishlist")
+        .select("user_id, product_id, name, price, image_url, quantity, oldPrice")
+        .eq("user_id", user_id);
+
+      if (wishlistData) {
+        setWishList(
+          wishlistData.map((item) => ({
             id: item.product_id,
+            user_id: item.user_id,
+            product_id: item.product_id,
             name: item.name,
             price: item.price,
             image_url: item.image_url,
             quantity: item.quantity ?? 1,
-          }));
-          setCart(formattedCart);
-        } else if (cartError) {
-          console.error("Failed to load cart:", cartError.message);
-          toast.error("Could not load your cart!");
-        }
-
-        // Fetch Wishlist
-        const { data: wishlistData, error: wishlistError } = await supabase
-          .from("wishlist")
-          .select("product_id, name, price, image_url, quantity")
-          .eq("user_id", session.user.id);
-
-        if (wishlistData) {
-          setWishList(
-            wishlistData.map((item) => ({
-              id: item.product_id,
-              name: item.name,
-              price: item.price,
-              image_url: item.image_url,
-              quantity: item.quantity ?? 1,
-            }))
-          );
-        } else if (wishlistError) {
-          console.error("Failed to load wishlist:", wishlistError.message);
-          toast.error("Could not load your wishlist!");
-        }
+            oldPrice: item.oldPrice ?? undefined,
+          }))
+        );
+      } else if (wishlistError) {
+        console.error("Failed to load wishlist:", wishlistError.message);
+        toast.error("Could not load your wishlist!");
       }
     };
 
     fetchData();
   }, []);
 
-  // Add to Cart
   const addToCart = async (product: Product) => {
     const {
       data: { session },
@@ -154,7 +164,19 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setWishList((prev) => {
       const exists = prev.find((item) => item.id === product.id);
       if (exists) return prev;
-      return [...prev, { ...product, quantity: 1 }];
+      return [
+        ...prev,
+        {
+          id: product.id,
+          product_id: product.id,
+          user_id: session.user.id,
+          name: product.name,
+          price: product.price,
+          image_url: product.image_url,
+          quantity: 1,
+          oldPrice: product.oldPrice,
+        },
+      ];
     });
 
     await supabase.from("wishlist").upsert(
@@ -165,6 +187,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         price: product.price,
         image_url: product.image_url,
         quantity: 1,
+        oldPrice: product.oldPrice,
       },
       {
         onConflict: "user_id,product_id",

@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import arrowimg from "../../public/assets/ArrowRight.png";
 import ProductCard from "./Card/ProductCard ";
 import b1 from "../../public/assets/HeroImg/b-1.svg";
@@ -28,10 +28,7 @@ const ComputerAccesories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
  
-  useEffect(() => {
-    filterProducts();
-  }, [activeCategoryId, products]);
-
+ 
   useEffect(() => {
     fetchCategories();
     fetchProducts();
@@ -54,7 +51,8 @@ const ComputerAccesories = () => {
     }
   };
 
-  const filterProducts = () => {
+
+  const filterProducts = useCallback(() => {
     if (activeCategoryId === null) {
       setFilteredProducts(products);
     } else {
@@ -62,8 +60,11 @@ const ComputerAccesories = () => {
         products.filter((product) => product.category_id === activeCategoryId)
       );
     }
-  };
-
+  }, [activeCategoryId, products]);
+  
+  useEffect(() => {
+    filterProducts();
+  }, [activeCategoryId, products,filterProducts]);
 
 
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ type Product = {
   id: number;
   name: string;
   price: number;
-  quantity: number;
+  quantity?: number;
   categories: string;
   image_url?: string;
 };
@@ -125,14 +125,7 @@ const Dashboard = () => {
   }, [router]);
   
 
-  useEffect(() => {
-    if (isLoggedIn && adminId) {
-      fetchOrders();
-      fetchCategories();
-      fetchProducts();
-    }
-  }, [isLoggedIn, adminId]);
-
+ 
   // fetch orders //
   const fetchOrders = async () => {
     const { data } = await supabase.from("orders").select("*");
@@ -146,15 +139,24 @@ const Dashboard = () => {
   };
 
   // fetch products //
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     if (!adminId) return;
     const { data, error } = await supabase
       .from("allproducts")
       .select("*")
       .eq("admin_id", adminId);
-
+  
     if (!error && data) setProducts(data);
-  };
+  }, [adminId]); 
+  
+  useEffect(() => {
+    if (isLoggedIn && adminId) {
+      fetchOrders();
+      fetchCategories();
+      fetchProducts();
+    }
+  }, [isLoggedIn, adminId, fetchOrders, fetchCategories, fetchProducts]); 
+  
 
   //--------- category manage start----------//
   // add category //
