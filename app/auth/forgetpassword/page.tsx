@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/app/lib/supabaseClient";
-import Signup from "@/app/admin/adsignup/adminsignup";
+import Signuppage from "../signup/signuppage";
 
 type ForgotPasswordFormData = {
   email: string;
@@ -111,7 +111,7 @@ const Forgetpassword = () => {
           account.
         </p>
 
-        {issignup && <Signup onClose={() => setIssignup(false)} />}
+        {issignup && <Signuppage onClose={() => setIssignup(false)} />}
       </div>
     </div>
   );

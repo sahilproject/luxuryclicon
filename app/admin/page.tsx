@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast, Toaster } from "react-hot-toast";
 
-const Login = dynamic(() => import("./adminlogin/adminloginpage"), {
+const Login = dynamic(() => import("./adminlogin/page"), {
   ssr: false,
 });
 
@@ -88,7 +88,7 @@ const Dashboard = () => {
   
       const user = session?.user;
       if (!user) {
-        router.push("/admin/adminlogin");
+        router.push("/admin/adminloginpage");
         return;
       }
   

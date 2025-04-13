@@ -25,6 +25,8 @@ const Signuppage: React.FC<SignupProps> = ({ onClose }) => {
 
   const [issignin, setIssignin] = useState(false);
   const router = useRouter(); 
+  const [loading, setLoading] = useState(false);
+  
 
   const {
     register,
@@ -35,7 +37,8 @@ const Signuppage: React.FC<SignupProps> = ({ onClose }) => {
 
   const onSubmit = async (data: SignUpFormData) => {
     const { name, email, password } = data;
-  
+    setLoading(true); 
+
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
@@ -68,15 +71,19 @@ const Signuppage: React.FC<SignupProps> = ({ onClose }) => {
     ]);
   
     if (insertError) {
-      toast.success("Sign up successful!");
-      // console.error(insertError);
-    router.push("/dashboard");
-      return;
+      toast.error("Sign up failed!");
+      
+    setLoading(false); // Stop loading
+    
     }
   
     toast.success("Sign up successful!");
-    router.push("/dashboard");
     onClose();
+    router.push("/dashboard");
+    router.refresh();
+    setLoading(false); // Stop loading
+    setIssignin(false);
+
   };
   
 
@@ -151,12 +158,38 @@ const Signuppage: React.FC<SignupProps> = ({ onClose }) => {
         </div>
 
         {/* Submit button */}
-        <button
-          type="submit"
-          className="font-semibold w-full flex justify-center items-center cursor-pointer bg-[#FA8232] text-white py-2 rounded-sm hover:bg-blue-600 transition-all"
-        >
-          SIGNUP <GoArrowRight className="ml-1 text-1xl" />
-        </button>
+         <button
+                  type="submit"
+                  disabled={loading}
+                  className="font-semibold w-full flex justify-center items-center cursor-pointer bg-[#FA8232] text-white py-2 rounded-sm hover:bg-blue-600 transition-all"
+                >
+                  {loading ? (
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      />
+                    </svg>
+                  ) : (
+                    <p className="flex justify-center items-center">
+                      SUBMIT <GoArrowRight className="ml-1 text-1xl" />
+                      </p>
+                  )}
+                </button>
       </form>
 
       <div className="flex items-center justify-center my-4">

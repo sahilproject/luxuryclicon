@@ -5,13 +5,10 @@ import { supabase } from "@/app/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-type LoginProps = {
-  onSuccess: () => void;
-};
 
 
 
-const Login = ({ onSuccess }: LoginProps) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -36,7 +33,6 @@ const Login = ({ onSuccess }: LoginProps) => {
     if (adminData) {
       toast.success("Admin login successful");
       router.push("/admin");
-      onSuccess()
       router.refresh();
     } else {
       toast.error("Access denied: Not an admin");
