@@ -229,3 +229,27 @@ export default function Signin({ onClose }:SigninProps) {
 };
 
 // export default Signin;
+
+
+
+
+// app/auth/signin/page.tsx
+// 'use client';
+
+// import React, { useState } from 'react';
+// import Signin from './SinginForm';
+
+// export default function ParentComponent() {
+//   const [isSigninVisible, setIsSigninVisible] = useState(true);
+
+//   const handleClose = () => {
+//     setIsSigninVisible(false);
+//   };
+
+//   return (
+//     <div>
+//       {isSigninVisible && <Signin onClose={handleClose} />}
+//     </div>
+//   );
+// }
+

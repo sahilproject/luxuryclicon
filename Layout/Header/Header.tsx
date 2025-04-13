@@ -49,6 +49,9 @@ type Product = {
 //   id: number;
 //   name: string;
 // };
+interface SigninProps {
+  onClose: () => void;
+}
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
