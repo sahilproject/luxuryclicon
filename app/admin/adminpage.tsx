@@ -43,11 +43,9 @@ interface Order {
   user_email:string;
 }
 
-type adminProps = {
-  onSuccess: () => void;
-};
 
-const Dashboard = ({onSuccess}:adminProps) => {
+
+const Dashboard = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
