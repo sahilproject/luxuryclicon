@@ -344,7 +344,7 @@ const CheckoutForm = () => {
             >
               <div className="flex items-center gap-3">
                 <Image
-                  src={item.image_url}
+                  src={item.image_url ?? "/fallback.png"}
                   alt={item.name}
                   width={200}
                   height={200}

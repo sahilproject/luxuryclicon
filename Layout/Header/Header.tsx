@@ -15,7 +15,6 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { PiUserLight } from "react-icons/pi";
 import { RxCross1 } from "react-icons/rx";
 import Cart from "@/app/cart/Cartpage";
-import Signin from "@/app/auth/signin/page";
 import Wishpage from "@/app/wishlist/wishpage";
 import { supabase } from "@/app/lib/supabaseClient";
 import ProductCard from "@/app/Components/Card/ProductCard ";
@@ -31,6 +30,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { toast } from "react-toastify";
 import { Session } from "@supabase/supabase-js";
 import Confetti from "react-confetti";
+import SigninForm from "@/app/auth/signin/SinginForm";
 
 type Product = {
   id: number;
@@ -481,7 +481,7 @@ const Header = () => {
                   </button>
 
                   {!session && islogin && (
-                    <Signin onClose={handleSuccessfulLogin} />
+                    <SigninForm onClose={handleSuccessfulLogin} />
                   )}
 
                   {session && role === "user" && showUserMenu && (

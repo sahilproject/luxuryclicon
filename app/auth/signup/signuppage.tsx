@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 import { GoArrowRight } from "react-icons/go";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Signin from "../auth/signin/page";
 import { supabase } from "@/app/lib/supabaseClient";
 import { useRouter } from "next/navigation"; 
+import SigninForm from "../signin/SinginForm";
 
 
 type SignUpFormData = {
@@ -20,7 +20,7 @@ interface SignupProps {
 }
 
 
- export default function Signup({ onClose }:SignupProps){
+const Signuppage: React.FC<SignupProps> = ({ onClose }) => {
 
 
   const [issignin, setIssignin] = useState(false);
@@ -177,9 +177,9 @@ interface SignupProps {
       >
         Sign in
       </button>
-      {issignin && <Signin onClose={() => setIssignin(false)} />}
+      {issignin && <SigninForm onClose={() => setIssignin(false)} />}
     </div>
   );
 };
 
-// export default Signup;
+export default Signuppage;

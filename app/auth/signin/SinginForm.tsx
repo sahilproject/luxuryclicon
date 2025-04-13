@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import { GoArrowRight } from "react-icons/go";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Signup from "../auth/signup/page";
 import Link from "next/link";
 import { supabase } from "@/app/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import Signuppage from "../signup/signuppage";
 
 
 type SignUpFormData = {
@@ -21,7 +21,7 @@ interface SigninProps {
 }
 
 
-export default function Signin({ onClose }:SigninProps) {
+const SigninForm: React.FC<SigninProps> = ({ onClose }) => {
   const [issignup, setIssignup] = useState(false);
   const [loading, setLoading] = useState(false);
   
@@ -223,9 +223,9 @@ export default function Signin({ onClose }:SigninProps) {
         CREATE ACCOUNT
       </button>
 
-      {issignup && <Signup onClose={() => setIssignup(false)} />}
+      {issignup && <Signuppage onClose={() => setIssignup(false)} />}
     </div>
   );
 };
 
-// export default Signin;
+export default SigninForm;

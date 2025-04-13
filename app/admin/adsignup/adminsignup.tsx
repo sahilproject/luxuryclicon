@@ -6,9 +6,14 @@ import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+type SignUpprops = {
+  onClose: () => void;
+};
 
 
-const Signup = () => {
+
+
+const Signup = ({onClose}:SignUpprops) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -56,6 +61,7 @@ const Signup = () => {
 
     if (adminInsertError) {
       toast.success("Signup successful!");
+      onClose()
       // console.error("Admin Insert Error:", adminInsertError.message);
       return;
     }

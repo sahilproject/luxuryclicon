@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { GoArrowRight } from "react-icons/go";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Signup from "../signup/page";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/app/lib/supabaseClient";
+import Signup from "@/app/admin/adsignup/adminsignup";
 
 type ForgotPasswordFormData = {
   email: string;

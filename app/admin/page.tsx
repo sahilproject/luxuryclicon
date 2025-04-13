@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast, Toaster } from "react-hot-toast";
 
-const Login = dynamic(() => import("../admin/adminlogin/page"), {
+const Login = dynamic(() => import("./adminlogin/adminloginpage"), {
   ssr: false,
 });
 
