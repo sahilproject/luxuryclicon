@@ -59,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     };
 
     fetchReviews();
-  }, [product?.name]); 
+  }, [product?.name]);
 
   const handleAddToCart = async () => {
     const {
@@ -167,9 +167,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
 
         {/* Modal */}
+        
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-200/10 backdrop-blur-[2px]">
-            <div className="bg-white p-6 rounded-lg shadow-lg relative w-[1000px] h-[400px] overflow-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-200/10 backdrop-blur-[2px] px-2">
+            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg relative w-full max-w-[1000px] h-[90vh] sm:h-[400px] overflow-auto">
               <button
                 className="absolute top-1 right-2 text-gray-500 hover:text-black p-3 cursor-pointer"
                 onClick={() => setIsModalOpen(false)}
@@ -177,8 +178,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <RxCross1 />
               </button>
 
-              <div className="flex gap-7 w-full h-full">
-                <div className="w-1/2 flex items-center justify-center rounded-md border-[2px] border-gray-300">
+              <div className="flex flex-col sm:flex-row gap-5 sm:gap-7 w-full h-full">
+                <div className="w-full sm:w-1/2 flex items-center justify-center rounded-md border-[2px] border-gray-300">
                   <Link
                     href={{
                       pathname: `/productdetail/${product.id}`,
@@ -191,18 +192,22 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         alt={product.name}
                         width={100}
                         height={100}
-                        className="w-full h-60 object-contain rounded"
+                        className="w-full h-48 sm:h-60 object-contain rounded"
                       />
                     )}
                   </Link>
                 </div>
-                <div className="w-1/2 flex flex-col justify-center gap-y-4">
-                  <h2 className="text-xl font-bold mb-2">{product.name}</h2>
-                  <p className="text-gray-700 text-lg">
+                <div className="w-full sm:w-1/2 flex flex-col justify-center gap-y-3 sm:gap-y-4">
+                  <h2 className="text-lg sm:text-xl font-bold">
+                    {product.name}
+                  </h2>
+                  <p className="text-gray-700 text-base sm:text-lg">
                     Price: ${product.price}
                   </p>
-                  <p className="text-gray-700 text-lg">Category: Electronics</p>
-                  <p className="text-gray-700 text-lg flex items-center gap-1">
+                  <p className="text-gray-700 text-base sm:text-lg">
+                    Category: Electronics
+                  </p>
+                  <p className="text-gray-700 text-base sm:text-lg flex items-center gap-1">
                     Reviews:{" "}
                     {averageRating !== null ? (
                       <>
@@ -219,24 +224,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                       href={`/reviews/${encodeURIComponent(
                         product.name.trim()
                       )}`}
-                      className=" text-blue-600 hover:underline"
+                      className="text-blue-600 hover:underline"
                     >
                       View all reviews...
                     </Link>
                   )}
 
-                  <div className="flex gap-x-4 mt-6 items-center">
-                    <div className="flex items-center border border-gray-300 rounded-sm">
+                  <div className="flex flex-row sm:flex-row gap-4 mt-4 sm:mt-6 items-start sm:items-center">
+                    <div className="flex items-center border border-gray-300 rounded-sm text-sm sm:text-base">
                       <button
                         onClick={handleDecrement}
-                        className="px-3 py-2 text-lg font-bold bg-gray-200 cursor-pointer"
+                        className="px-2 sm:px-3 py-1.5 sm:py-2 text-base sm:text-lg font-bold bg-gray-200 cursor-pointer"
                       >
                         −
                       </button>
-                      <span className="px-4 text-lg">{quantity}</span>
+                      <span className="px-3 sm:px-4 text-base sm:text-lg">
+                        {quantity}
+                      </span>
                       <button
                         onClick={handleIncrement}
-                        className="px-3 py-2 text-lg font-bold bg-gray-200 cursor-pointer"
+                        className="px-2 sm:px-3 py-1.5 sm:py-2 text-base sm:text-lg font-bold bg-gray-200 cursor-pointer"
                       >
                         +
                       </button>
@@ -244,10 +251,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
                     <button
                       onClick={handleAddToCart}
-                      className="bg-[#FA8232] text-white px-6 py-3 rounded-sm cursor-pointer transition-all"
+                      className="bg-[#FA8232] text-white px-4 sm:px-6 py-3 sm:py-3 rounded-sm cursor-pointer transition-all text-sm sm:text-base"
                     >
                       ADD TO CART
                     </button>
+
                     <Link href="/checkoutpage">
                       <BuynowBtn />
                     </Link>

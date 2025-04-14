@@ -10,6 +10,8 @@ import { LiaCcVisa } from "react-icons/lia";
 import { FaCcMastercard } from "react-icons/fa6";
 import Link from "next/link";
 import Image from "next/image";
+import { supabase } from "@/app/lib/supabaseClient";
+import { toast } from "react-toastify";
 
 type Product = {
   id: number;
@@ -36,11 +38,34 @@ const ProductDetailsPage = () => {
 
   if (!product.name) return <div>Product not found</div>;
 
-  const { addToCart } = context || {};
+  // const { addToCart } = context || {};
 
-  const handleAddToCart = () => {
-    if (addToCart) {
-      addToCart({ ...product, quantity });
+
+
+  const handleAddToCart = async () => {
+    const user = await supabase.auth.getUser();
+    const userId = user.data.user?.id;
+  
+    if (!userId) {
+      alert("Please log in to add to cart.");
+      return;
+    }
+  
+    const { error } = await supabase.from("cart").insert([
+      {
+        user_id:userId,
+          product_id: product.id,
+          name: product.name,
+          price: product.price,
+          image_url: product.image_url,
+      },
+    ]);
+  
+    if (error) {
+      console.error("Error adding to cart:", error.message);
+      alert("Something went wrong while adding to cart.");
+    } else {
+      toast.success("Product added to cart!");
     }
   };
 

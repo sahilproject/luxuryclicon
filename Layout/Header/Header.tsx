@@ -40,15 +40,7 @@ type Product = {
   category_id: number;
 };
 
-// type HeaderProps = {
-//   categories: Category[];
-//   onSelect: (categoryId: number) => void;
-// };
 
-// type Category = {
-//   id: number;
-//   name: string;
-// };
 interface SigninProps {
   onClose: () => void;
 }
@@ -84,7 +76,7 @@ const Header = () => {
     } = await supabase.auth.getSession();
 
     setSession(session);
-    setShowUserMenu(false); // Always reset menu state on session check
+    setShowUserMenu(false); 
 
     if (session?.user) {
       const { data, error } = await supabase
@@ -109,7 +101,6 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Product[]>([]);
 
-  // for category  dropdown //
   const router = useRouter();
 
   // cartbadge //
@@ -572,7 +563,7 @@ const Header = () => {
       {/* Render Search Results */}
       <div className="container px-4">
         {searchResults.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 pt-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-6">
             {searchResults.map((product: any) => (
               <ProductCard key={product.id} product={product} />
             ))}
