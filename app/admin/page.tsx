@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast, Toaster } from "react-hot-toast";
-import { FaBars } from "react-icons/fa"; 
 
 const Login = dynamic(() => import("./adminlogin/adminlogin"), {
   ssr: false,
