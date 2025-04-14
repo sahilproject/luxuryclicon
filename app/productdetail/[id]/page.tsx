@@ -2,8 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { CiStar } from "react-icons/ci";
-import { cartContext } from "../../context/ProductContext";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { LuGitCompare } from "react-icons/lu";
 import { LiaCcVisa } from "react-icons/lia";
@@ -22,7 +21,6 @@ type Product = {
 
 const ProductDetailsPage = () => {
   const searchParams = useSearchParams();
-  const context = useContext(cartContext);
   const [quantity, setQuantity] = useState(1);
 
   const handleIncrement = () => setQuantity((prev) => prev + 1);
@@ -38,7 +36,6 @@ const ProductDetailsPage = () => {
 
   if (!product.name) return <div>Product not found</div>;
 
-  // const { addToCart } = context || {};
 
 
 
