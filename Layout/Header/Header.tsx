@@ -83,8 +83,7 @@ const Header = () => {
         .from("profiles")
         .select("role")
         .eq("id", session.user.id)
-        .single();
-
+        .maybeSingle()
       if (error) {
         console.error("Error fetching role:", error.message);
       } else {
