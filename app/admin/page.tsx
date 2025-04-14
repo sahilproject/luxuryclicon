@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast, Toaster } from "react-hot-toast";
+import { FaBars } from "react-icons/fa"; 
 
 const Login = dynamic(() => import("./adminlogin/adminlogin"), {
   ssr: false,
@@ -61,6 +62,7 @@ const Dashboard = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>(""); 
 
+  
   const [form, setForm] = useState<Omit<Product, "id">>({
     name: "",
     price: 0,
@@ -365,9 +367,9 @@ const Dashboard = () => {
   };
 
 
-
   return (
-    <div className="flex min-h-screen container gap-4">
+    <>
+    <div className="flex flex-col md:flex-row min-h-screen container gap-4 p-2">
       {/* Sidebar */}
       <aside className="w-64 bg-gray-800 text-white p-6 space-y-6 rounded-lg h-[340px]">
         <div>
@@ -742,9 +744,7 @@ const Dashboard = () => {
                             <p className="text-green-600 font-bold">
                               ${product.price}
                             </p>
-                            {/* <p className="text-sm text-gray-500">
-                              Category: {product.categories}
-                            </p> */}
+                            
                             <div className="flex gap-2 mt-2">
                               <button
                                 onClick={() => handleEdit(product)}
@@ -777,6 +777,9 @@ const Dashboard = () => {
         )}
       </main>
     </div>
+    
+  </>
+    
   );
 };
 
