@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import footerLogo from "../../public/assets/Logo-1.svg";
+import footerLogo from "../../public/icon-luxury.png";
 import { GoArrowRight } from "react-icons/go";
 import googleplay from "../../public/assets/mobile.svg";
 import appstore from "../../public/assets/mobile1.svg";
@@ -25,7 +25,7 @@ const Footer = () => {
               Salt Lake , Kolkata , India
               <br /> 700002
             </p>
-            <p className="text-[#FFFFFF]">sahilrahaman585@gmail.com</p>
+            <p className="text-[#FFFFFF]">luxuryclicon@gmail.com</p>
           </div>
 
           <div className="md:col-span-2 p-2 grid ">
@@ -113,7 +113,7 @@ const Footer = () => {
       <div className="w-full border border-white/10 mt-8"></div>
       <div className="flex justify-center items-center">
       <p className="flex gap-x-2  py-5 text-[#929FA5]">
-  All rights reserved © {new Date().getFullYear()}. Designed and Developed by <span className="font-semibold text-white-700">Sahil Rahaman </span>
+  All rights reserved © {new Date().getFullYear()}.<span className="font-semibold text-white-700">Luxury clicon Pvt Ltd</span>
 </p>
 </div>
     </div>

@@ -26,10 +26,15 @@ const BestDeals = () => {
     fetchProducts();
   }, []);
 
-  const fetchProducts = async () => {
-    const { data, error } = await supabase.from("allproducts").select("*");
-    if (!error && data) setProducts(data);
-  };
+ const fetchProducts = async () => {
+  const { data, error } = await supabase
+    .from("allproducts")
+    .select("*")
+    .order("created_at", { ascending: false }); // Show latest first
+
+  if (!error && data) setProducts(data);
+};
+
 
   return (
     <div>
@@ -58,8 +63,8 @@ const BestDeals = () => {
               Versio...
             </p>
             <span className="inline-flex items-center gap-2">
-              <p className="text-[#ADB7BC] line-through">$865.99</p>
-              <p className="text-[#2DA5F3] font-semibold font-sans">$442.12</p>
+              <p className="text-[#ADB7BC] line-through">865.99 </p>
+              <p className="text-[#2DA5F3] font-semibold font-sans">₹442.12</p>
             </span>{" "}
             <p className="text-[#5F6C72] text-[14px] pt-3">
               Games built using the Xbox Series X|S development kit showcase

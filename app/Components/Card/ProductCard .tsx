@@ -9,6 +9,7 @@ import { RxCross1 } from "react-icons/rx";
 import { BuynowBtn } from "../button/Button";
 import Link from "next/link";
 import { supabase } from "@/app/lib/supabaseClient";
+import { useRouter } from "next/navigation";
 
 type Product = {
   id: number;
@@ -29,6 +30,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [totalReviews, setTotalReviews] = useState<number>(0);
 
   const context = useContext(cartContext);
+  const router = useRouter();
 
   if (!context) {
     console.error("Error: ProductCard must be used within a CartProvider");
@@ -95,8 +97,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     } else {
       toast.success("Added to cart!", {
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 1500,
       });
+
+      router.push("/checkoutpage");
     }
   };
 
@@ -167,7 +171,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
 
         {/* Modal */}
-        
+
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-200/10 backdrop-blur-[2px] px-2">
             <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg relative w-full max-w-[1000px] h-[90vh] sm:h-[400px] overflow-auto">
@@ -202,7 +206,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     {product.name}
                   </h2>
                   <p className="text-gray-700 text-base sm:text-lg">
-                    Price: ${product.price}
+                    Price: ₹{product.price}
                   </p>
                   <p className="text-gray-700 text-base sm:text-lg">
                     Category: Electronics
@@ -270,7 +274,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <p className="text-[#191C1F] font-normal mt-2 line-clamp-2">
           {product.name}
         </p>
-        <p className="text-[#2DA5F3] font-semibold">${product.price}</p>
+        <p className="text-[#2DA5F3] font-semibold">₹{product.price}</p>
       </div>
     </>
   );

@@ -7,7 +7,7 @@ import pinterest from "@/public/assets/social/Pinterest.svg";
 import reddit from "@/public/assets/social/Reddit.svg";
 import twitter from "@/public/assets/social/Twitter.svg";
 import youtbe from "@/public/assets/social/Youtube.svg";
-import logo from "@/public/assets/Logo.svg";
+import logo from "@/public/icon-luxury.png";
 import glass from "@/public/assets/glass.svg";
 import Link from "next/link";
 import { IoCartOutline } from "react-icons/io5";
@@ -26,7 +26,6 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import { cartContext } from "@/app/context/ProductContext";
 import Breadcrumbs from "@/app/Components/breadcrumbs/breadcumbs";
 import { usePathname, useRouter } from "next/navigation";
-import { IoMdArrowDropdown } from "react-icons/io";
 import { toast } from "react-toastify";
 import { Session } from "@supabase/supabase-js";
 import Confetti from "react-confetti";
@@ -53,10 +52,6 @@ const Header = () => {
   const [showConfetti, setShowConfetti] = useState(true);
 
   // for currency and language //
-  const [language, setLanguage] = useState("Eng");
-  const [currency, setCurrency] = useState("USD");
-  const [showLangDropdown, setShowLangDropdown] = useState(false);
-  const [showCurrDropdown, setShowCurrDropdown] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -326,7 +321,7 @@ const Header = () => {
         <div className="container flex flex-wrap justify-between px-2 gap-y-2">
           <div className="flex items-center w-full sm:w-auto ">
             <p className="text-white text-[14px]">
-              Welcome to Clicon online eCommerce store.
+              Welcome to Luxury Clicon Brand online .
             </p>
           </div>
 
@@ -343,63 +338,8 @@ const Header = () => {
               </div>
             </div>
 
-            <div className="hidden sm:block border-l h-6 border-gray-400"></div>
 
-            <div className="flex gap-3">
-              {/* Language Dropdown */}
-              <div className="relative">
-                <button
-                  className="cursor-pointer flex items-center gap-1"
-                  onClick={() => setShowLangDropdown(!showLangDropdown)}
-                >
-                  {language}
-                  <IoMdArrowDropdown />
-                </button>
-                {showLangDropdown && (
-                  <ul className="absolute z-10 bg-white border mt-1 text-sm text-black cursor-pointer">
-                    {["Eng", "Bn", "Fr"].map((lang) => (
-                      <li
-                        key={lang}
-                        className="px-4 py-2 hover:bg-gray-100"
-                        onClick={() => {
-                          setLanguage(lang);
-                          setShowLangDropdown(false);
-                        }}
-                      >
-                        {lang}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-
-              {/* Currency Dropdown */}
-              <div className="relative">
-                <button
-                  className="cursor-pointer flex items-center gap-1"
-                  onClick={() => setShowCurrDropdown(!showCurrDropdown)}
-                >
-                  {currency}
-                  <IoMdArrowDropdown />
-                </button>
-                {showCurrDropdown && (
-                  <ul className="absolute z-10 bg-white border mt-1 text-sm text-black cursor-pointer">
-                    {["USD", "INR", "EUR"].map((curr) => (
-                      <li
-                        key={curr}
-                        className="px-4 py-2 hover:bg-gray-100"
-                        onClick={() => {
-                          setCurrency(curr);
-                          setShowCurrDropdown(false);
-                        }}
-                      >
-                        {curr}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
+           
           </div>
         </div>
       </div>
@@ -407,14 +347,14 @@ const Header = () => {
       <hr className="text-[#1373b3]" />
 
       {/* nav part  */}
-      <div className="bg-[#1B6392]">
+      <div className="bg-[#ffffff] shadow">
         <div className="container">
           <div className="flex justify-between items-center py-3 px-2 sm:px-0">
             <Link href="/">
-              <Image src={logo} alt="logo" className="w-27 sm:w-42" />
+              <Image src={logo} alt="logo" className="w-43 sm:w-72" />
             </Link>
 
-            <div className="bg-white py-1 sm:py-2 rounded-sm justify-between items-center px-4 flex w-[30%] mx-[2px]">
+            <div className="bg-white py-1 sm:py-2 rounded-sm justify-between items-center px-4 flex w-[30%] mx-[2px] shadow border-1 border-amber-400">
               <input
                 type="text"
                 placeholder="Search for anything..."
@@ -435,7 +375,7 @@ const Header = () => {
                   onClick={() => setIsCartOpen(!isCartOpen)}
                   className="relative"
                 >
-                  <IoCartOutline className="text-white text-2xl sm:text-3xl cursor-pointer font-semibold" />
+                  <IoCartOutline className="text-black text-2xl sm:text-3xl cursor-pointer font-semibold" />
                   {
   totalCartItems > 0 ? (
     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
@@ -449,7 +389,7 @@ const Header = () => {
                   onClick={() => setIsWishlistOpen(!isWishlistOpen)}
                   className="relative"
                 >
-                  <IoMdHeartEmpty className="text-white text-2xl sm:text-3xl cursor-pointer font-semibold" />
+                  <IoMdHeartEmpty className="text-black text-2xl sm:text-3xl cursor-pointer font-semibold" />
                   {wishlistCount > 0 && (
                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                       {wishlistCount}
@@ -467,7 +407,7 @@ const Header = () => {
                       }
                     }}
                   >
-                    <PiUserLight className="text-white text-2xl sm:text-3xl cursor-pointer font-bold mt-1" />
+                    <PiUserLight className="text-black text-2xl sm:text-3xl cursor-pointer font-bold mt-1" />
                   </button>
 
                   {!session && islogin && (

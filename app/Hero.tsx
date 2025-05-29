@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import Heroimg from "../public/assets/HeroImg/Widget.svg";
@@ -5,34 +7,53 @@ import Heroimg1 from "../public/assets/HeroImg/Widget1.svg";
 import Heroimg2 from "../public/assets/HeroImg/Widget2.svg";
 import Link from "next/link";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 
 const Hero = () => {
   return (
     <>
-      <section className="hero-section ">
+      <section className="hero-section">
         <div className="container mx-auto p-4">
-
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-2">
-            {/* <!-- col-8 (8/12 = 2/3) --> */}
-            <div className="md:col-span-2 text-white border rounded-2xl cursor-pointer">
+          <Swiper
+            modules={[Autoplay, Navigation]}
+            autoplay={{ delay: 3000 }}
+            navigation
+            loop
+            spaceBetween={20}
+            className="rounded-xl overflow-hidden"
+          >
+            <SwiperSlide>
               <Link href="/browseallproducts">
-              <Image src={Heroimg} alt="heroimg" />
+                <Image
+                  src={Heroimg}
+                  alt="Hero Image 1"
+                  className="w-full h-auto object-cover"
+                />
               </Link>
-            </div>
-            {/* <!-- col-4 (4/12 = 1/3) --> */}
-            <div className="  md:col-span-1 text-white sm:block hidden gap-y-3">
+            </SwiperSlide>
+            <SwiperSlide>
               <Link href="/browseallproducts">
-              <Image src={Heroimg1} alt="heroimg" className="cursor-pointer"/>
+                <Image
+                  src={Heroimg1}
+                  alt="Hero Image 2"
+                  className="w-full h- object-cover"
+                />
               </Link>
+            </SwiperSlide>
+            <SwiperSlide>
               <Link href="/browseallproducts">
-              <Image src={Heroimg2} alt="heroimg" className="cursor-pointer"/>
+                <Image
+                  src={Heroimg2}
+                  alt="Hero Image 3"
+                  className="w-full h-auto object-cover"
+                />
               </Link>
-            </div>
-          </div>
-
-          
-        </div> 
+            </SwiperSlide>
+          </Swiper>
+        </div>
       </section>
     </>
   );

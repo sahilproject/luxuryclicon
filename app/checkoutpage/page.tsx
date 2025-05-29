@@ -2,10 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { cartContext } from "../context/ProductContext";
 import { GoArrowRight } from "react-icons/go";
-import { GrAmazon } from "react-icons/gr";
-import { FaPaypal } from "react-icons/fa";
 import { FaDollarSign } from "react-icons/fa6";
-import { IoLogoVenmo } from "react-icons/io5";
 import { FaRegCreditCard } from "react-icons/fa";
 import Image from "next/image";
 import orderimg from "@/public/assets/CheckCircle.svg";
@@ -21,7 +18,6 @@ type CartItem = {
   quantity: number;
   image_url?: string;
   user_id?: string;
-  // add other fields from your "cart" table if needed
 };
 
 
@@ -65,6 +61,13 @@ const CheckoutForm = () => {
   }, []);
   
 
+  useEffect(() => {
+  const script = document.createElement("script");
+  script.src = "https://checkout.razorpay.com/v1/checkout.js";
+  document.body.appendChild(script);
+}, []);
+
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -95,12 +98,10 @@ const CheckoutForm = () => {
   const total = subtotal - discount + tax;
 
   const paymentOptions = [
-    { name: "Cash on Delivery", icon: <FaDollarSign /> },
-    { name: "Venmo", icon: <IoLogoVenmo /> },
-    { name: "Paypal", icon: <FaPaypal /> },
-    { name: "Amazon Pay", icon: <GrAmazon /> },
-    { name: "Debit/Credit Card", icon: <FaRegCreditCard /> },
-  ];
+  { name: "Cash on Delivery", icon: <FaDollarSign /> },
+  { name: "UPI", icon: <FaRegCreditCard /> }, // NEW
+];
+
 
   const generateOrderId = () => {
     const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, "");
@@ -117,63 +118,92 @@ const CheckoutForm = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+
   const handlePlaceOrder = async () => {
-    const requiredFields = [
-      "firstName",
-      "lastName",
-      "address",
-      "email",
-      "phone",
-    ];
-    const isValid = requiredFields.every(
-      (field) => formData[field as keyof typeof formData].trim() !== ""
-    );
+  const requiredFields = [
+    "firstName", "lastName", "address", "email", "phone"
+  ];
+  const isValid = requiredFields.every(
+    (field) => formData[field as keyof typeof formData].trim() !== ""
+  );
+  if (!isValid) {
+    alert("Please fill in all required fields.");
+    return;
+  }
 
-    if (!isValid) {
-      alert("Please fill in all required fields.");
-      return;
-    }
+  if (selectedPaymentMethod === "UPI") {
+    const orderId = generateOrderId();
 
-    const newOrderId = generateOrderId();
-
-    const billingInfo = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      address: formData.address,
-      email: formData.email,
-      phone: formData.phone,
-    };
-
-    try {
-      const { error: orderError } = await supabase.from("orders").insert([
-        {
+    const options = {
+      key: "rzp_test_Qb0nYhShKIlhSW", // Replace with your Razorpay key
+      amount: total * 100, // in paisa
+      currency: "INR",
+      name: "Your Store",
+      description: "UPI Payment",
+      image: "/logo.png",
+      handler: async function (response: any) {
+        const paymentId = response.razorpay_payment_id;
+        await supabase.from("orders").insert([{
           user_id: userId,
-          order_id: newOrderId,
+          order_id: orderId,
           details: cart,
           total_amount: total,
-          status: "pending",
-          payment_method: selectedPaymentMethod,
+          status: "paid",
+          payment_method: "UPI",
           billing_info: billingInfo,
-        },
-      ]);
+          payment_id: paymentId,
+        }]);
+        await supabase.from("cart").delete().eq("user_id", userId);
+        setOrderId(orderId);
+        setOrderPlaced(true);
+        clearCart();
+      },
+      prefill: {
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        contact: formData.phone,
+      },
+      theme: {
+        color: "#F37254",
+      },
+    };
 
-      if (orderError) {
-        console.error("Error placing order:", orderError.message);
-        alert("Something went wrong while placing the order.");
-        return;
-      }
+    const rzp = new (window as any).Razorpay(options);
+    rzp.open();
+    return;
+  }
 
-      // Clear cart from Supabase
-      await supabase.from("cart").delete().eq("user_id", userId);
-
-      setOrderId(newOrderId);
-      setOrderPlaced(true);
-      clearCart();
-    } catch (err) {
-      console.error("Unexpected error:", err);
-      alert("Unexpected error occurred.");
-    }
+  // fallback: Cash on Delivery or other methods
+  const billingInfo = {
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    address: formData.address,
+    email: formData.email,
+    phone: formData.phone,
   };
+
+  const newOrderId = generateOrderId();
+  const { error } = await supabase.from("orders").insert([{
+    user_id: userId,
+    order_id: newOrderId,
+    details: cart,
+    total_amount: total,
+    status: "pending",
+    payment_method: selectedPaymentMethod,
+    billing_info: billingInfo,
+  }]);
+
+  if (error) {
+    alert("Error placing order");
+    return;
+  }
+
+  await supabase.from("cart").delete().eq("user_id", userId);
+  setOrderId(newOrderId);
+  setOrderPlaced(true);
+  clearCart();
+};
+
 
   if (loading) {
     return (
@@ -236,14 +266,6 @@ const CheckoutForm = () => {
             className="border p-2 border-[#E4E7E9] rounded"
           />
         </div>
-
-        <input
-          name="company"
-          value={formData.company}
-          onChange={handleInputChange}
-          placeholder="Company Name (Optional)"
-          className="border border-[#E4E7E9] p-2 rounded w-full"
-        />
         <input
           name="address"
           value={formData.address}
@@ -313,21 +335,7 @@ const CheckoutForm = () => {
           />
         </div>
 
-        <label className="inline-flex items-center space-x-2">
-          <input type="checkbox" />
-          <span>Ship into different address</span>
-        </label>
-
-        <div>
-          <h3 className="font-semibold mb-2">Additional Information</h3>
-          <textarea
-            name="notes"
-            value={formData.notes}
-            onChange={handleInputChange}
-            placeholder="Notes about your order, e.g. special notes for delivery"
-            className="border p-2 rounded w-full border-[#E4E7E9]"
-          />
-        </div>
+        
       </div>
 
       {/* Order Summary & Payment */}
