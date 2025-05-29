@@ -119,10 +119,93 @@ const CheckoutForm = () => {
   };
 
 
-  const handlePlaceOrder = async () => {
-  const requiredFields = [
-    "firstName", "lastName", "address", "email", "phone"
-  ];
+//   const handlePlaceOrder = async () => {
+//   const requiredFields = [
+//     "firstName", "lastName", "address", "email", "phone"
+//   ];
+//   const isValid = requiredFields.every(
+//     (field) => formData[field as keyof typeof formData].trim() !== ""
+//   );
+//   if (!isValid) {
+//     alert("Please fill in all required fields.");
+//     return;
+//   }
+
+//   if (selectedPaymentMethod === "UPI") {
+//     const orderId = generateOrderId();
+
+//     const options = {
+//       key: "rzp_test_Qb0nYhShKIlhSW", // Replace with your Razorpay key
+//       amount: total * 100, // in paisa
+//       currency: "INR",
+//       name: "luxury clicon",
+//       description: "UPI Payment",
+//       image: {logo},
+//       handler: async function (response: any) {
+//         const paymentId = response.razorpay_payment_id;
+//         await supabase.from("orders").insert([{
+//           user_id: userId,
+//           order_id: orderId,
+//           details: cart,
+//           total_amount: total,
+//           status: "paid",
+//           payment_method: "UPI",
+//           billing_info: billingInfo,
+//           payment_id: paymentId,
+//         }]);
+//         await supabase.from("cart").delete().eq("user_id", userId);
+//         setOrderId(orderId);
+//         setOrderPlaced(true);
+//         clearCart();
+//       },
+//       prefill: {
+//         name: `${formData.firstName} ${formData.lastName}`,
+//         email: formData.email,
+//         contact: formData.phone,
+//       },
+//       theme: {
+//         color: "#F37254",
+//       },
+//     };
+
+//     const rzp = new (window as any).Razorpay(options);
+//     rzp.open();
+//     return;
+//   }
+
+//   // fallback: Cash on Delivery or other methods
+//   const billingInfo = {
+//     firstName: formData.firstName,
+//     lastName: formData.lastName,
+//     address: formData.address,
+//     email: formData.email,
+//     phone: formData.phone,
+//   };
+
+//   const newOrderId = generateOrderId();
+//   const { error } = await supabase.from("orders").insert([{
+//     user_id: userId,
+//     order_id: newOrderId,
+//     details: cart,
+//     total_amount: total,
+//     status: "pending",
+//     payment_method: selectedPaymentMethod,
+//     billing_info: billingInfo,
+//   }]);
+
+//   if (error) {
+//     alert("Error placing order");
+//     return;
+//   }
+
+//   await supabase.from("cart").delete().eq("user_id", userId);
+//   setOrderId(newOrderId);
+//   setOrderPlaced(true);
+//   clearCart();
+// };
+
+const handlePlaceOrder = async () => {
+  const requiredFields = ["firstName", "lastName", "address", "email", "phone"];
   const isValid = requiredFields.every(
     (field) => formData[field as keyof typeof formData].trim() !== ""
   );
@@ -131,28 +214,40 @@ const CheckoutForm = () => {
     return;
   }
 
+  const billingInfo = {
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    address: formData.address,
+    email: formData.email,
+    phone: formData.phone,
+  };
+
   if (selectedPaymentMethod === "UPI") {
     const orderId = generateOrderId();
 
-    const options = {
-      key: "rzp_test_Qb0nYhShKIlhSW", // Replace with your Razorpay key
-      amount: total * 100, // in paisa
+    const options: RazorpayOptions = {
+      key: "rzp_test_Qb0nYhShKIlhSW",
+      amount: total * 100,
       currency: "INR",
-      name: "Your Store",
+      name: "Luxury Clicon",
       description: "UPI Payment",
-      image: "/logo.png",
-      handler: async function (response: any) {
+      image: { src: "/logo.png" }, 
+      handler: async function (response: RazorpayResponse) {
         const paymentId = response.razorpay_payment_id;
-        await supabase.from("orders").insert([{
-          user_id: userId,
-          order_id: orderId,
-          details: cart,
-          total_amount: total,
-          status: "paid",
-          payment_method: "UPI",
-          billing_info: billingInfo,
-          payment_id: paymentId,
-        }]);
+
+        await supabase.from("orders").insert([
+          {
+            user_id: userId,
+            order_id: orderId,
+            details: cart,
+            total_amount: total,
+            status: "paid",
+            payment_method: "UPI",
+            billing_info: billingInfo,
+            payment_id: paymentId,
+          },
+        ]);
+
         await supabase.from("cart").delete().eq("user_id", userId);
         setOrderId(orderId);
         setOrderPlaced(true);
@@ -168,30 +263,25 @@ const CheckoutForm = () => {
       },
     };
 
-    const rzp = new (window as any).Razorpay(options);
+    const rzp = new window.Razorpay(options);
     rzp.open();
     return;
   }
 
-  // fallback: Cash on Delivery or other methods
-  const billingInfo = {
-    firstName: formData.firstName,
-    lastName: formData.lastName,
-    address: formData.address,
-    email: formData.email,
-    phone: formData.phone,
-  };
-
+  // 💳 Fallback for COD or other methods
   const newOrderId = generateOrderId();
-  const { error } = await supabase.from("orders").insert([{
-    user_id: userId,
-    order_id: newOrderId,
-    details: cart,
-    total_amount: total,
-    status: "pending",
-    payment_method: selectedPaymentMethod,
-    billing_info: billingInfo,
-  }]);
+
+  const { error } = await supabase.from("orders").insert([
+    {
+      user_id: userId,
+      order_id: newOrderId,
+      details: cart,
+      total_amount: total,
+      status: "pending",
+      payment_method: selectedPaymentMethod,
+      billing_info: billingInfo,
+    },
+  ]);
 
   if (error) {
     alert("Error placing order");
@@ -203,6 +293,7 @@ const CheckoutForm = () => {
   setOrderPlaced(true);
   clearCart();
 };
+
 
 
   if (loading) {

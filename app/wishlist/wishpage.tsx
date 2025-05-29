@@ -38,7 +38,7 @@ const Wishpage: React.FC<CartProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="absolute top-12 right-2 sm:right-12 w-100 bg-white shadow-lg rounded-lg p-4">
+    <div className="absolute top-12 right-2 sm:right-12 w-100 bg-white shadow-lg rounded-lg p-4 z-50">
       <h3 className="text-lg font-semibold">Your Wishlist</h3>
 
       {wishList.length === 0 ? (

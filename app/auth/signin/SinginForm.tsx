@@ -117,10 +117,10 @@ const SigninForm: React.FC<SigninProps> = ({ onClose }) => {
 
   
   return (
-    <div className="absolute top-12 right-0 w-100 bg-white shadow-lg rounded-lg p-4">
-      <h3 className="text-lg mt-5 font-semibold text-center">
+    <div className="absolute top-12 right-0 w-100 bg-white shadow-lg rounded-lg p-4 z-50 ">
+      <h2 className="text-lg mt-5 font-semibold text-center">
         Sign in to your account
-      </h3>
+      </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
         {/* Email Input */}
         <div>

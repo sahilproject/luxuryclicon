@@ -741,7 +741,7 @@ const Dashboard = () => {
                             )}
                             <h3 className="font-semibold">{product.name}</h3>
                             <p className="text-green-600 font-bold">
-                              ${product.price}
+                              ₹{product.price}
                             </p>
                             
                             <div className="flex gap-2 mt-2">

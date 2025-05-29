@@ -39,7 +39,6 @@ type Product = {
   category_id: number;
 };
 
-
 interface SigninProps {
   onClose: () => void;
 }
@@ -63,7 +62,6 @@ const Header = () => {
   const widgetRef = useRef<HTMLDivElement>(null);
 
   // login user and access //
-  
 
   const getSessionAndRole = async () => {
     const {
@@ -71,14 +69,14 @@ const Header = () => {
     } = await supabase.auth.getSession();
 
     setSession(session);
-    setShowUserMenu(false); 
+    setShowUserMenu(false);
 
     if (session?.user) {
       const { data, error } = await supabase
         .from("profiles")
         .select("role")
         .eq("id", session.user.id)
-        .maybeSingle()
+        .maybeSingle();
       if (error) {
         console.error("Error fetching role:", error.message);
       } else {
@@ -151,7 +149,6 @@ const Header = () => {
     }
   }, []);
 
-  
   // for serching products //
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
@@ -168,48 +165,47 @@ const Header = () => {
     }
   };
 
-
-// user logout //
+  // user logout //
   const handleLogout = async () => {
     try {
       const {
         data: { user },
-        error: userError
+        error: userError,
       } = await supabase.auth.getUser();
-  
+
       if (userError || !user) {
         toast.error("Unable to get user information");
         return;
       }
-  
+
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
         .select("role")
         .eq("id", user.id)
         .single();
-  
+
       if (profileError || !profileData) {
         toast.error("Unable to verify user role");
         return;
       }
-  
+
       if (profileData.role === "user") {
         const { error: signOutError } = await supabase.auth.signOut();
-        
+
         if (signOutError) {
           throw signOutError;
         }
-  
+
         // Reset all relevant states
         setUser(null);
         setSession(null);
         setRole(null);
-        setShowUserMenu(false); 
-        setIslogin(false); 
-        
+        setShowUserMenu(false);
+        setIslogin(false);
+
         toast.success("Logged out successfully");
-        router.push("/"); 
-        router.refresh(); 
+        router.push("/");
+        router.refresh();
       } else {
         toast.error("Only regular users can log out from here");
       }
@@ -219,8 +215,7 @@ const Header = () => {
     }
   };
 
-
-  // success login 
+  // success login
   const handleSuccessfulLogin = () => {
     setIslogin(false);
     getSessionAndRole();
@@ -243,10 +238,6 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-
-
-
 
   return (
     <>
@@ -337,9 +328,6 @@ const Header = () => {
                 <Image alt="youtube" src={youtbe} width={18} height={10} />
               </div>
             </div>
-
-
-           
           </div>
         </div>
       </div>
@@ -376,13 +364,11 @@ const Header = () => {
                   className="relative"
                 >
                   <IoCartOutline className="text-black text-2xl sm:text-3xl cursor-pointer font-semibold" />
-                  {
-  totalCartItems > 0 ? (
-    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
-      {totalCartItems}
-    </span>
-  ) : null
-}
+                  {totalCartItems > 0 ? (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
+                      {totalCartItems}
+                    </span>
+                  ) : null}
                 </button>
 
                 <button
@@ -403,7 +389,7 @@ const Header = () => {
                       if (!session) {
                         setIslogin((prev) => !prev);
                       } else if (role === "user") {
-                        setShowUserMenu((prev) => !prev); 
+                        setShowUserMenu((prev) => !prev);
                       }
                     }}
                   >
