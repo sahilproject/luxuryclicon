@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import b1 from "../../public/assets/Banner.svg";
-import b2 from "../../public/assets/Banner-1.svg";
+import b1 from "../../public/assets/armani-banner.jpg";
+import b2 from "../../public/assets/balmain-heritage.jpg";
 
 const Postar = () => {
   return (

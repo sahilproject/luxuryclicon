@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import { cartContext } from "../context/ProductContext";
-import { FaShoppingCart, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import Image from "next/image";
 import { supabase } from "../lib/supabaseClient";
 import { toast } from "react-hot-toast";
@@ -114,7 +114,7 @@ export default function WishlistTable() {
           <tr>
             <th className="px-4 py-3">Products</th>
             <th className="px-4 py-3">Price</th>
-            <th className="px-4 py-3">Stock Status</th>
+            <th className=" py-3">Stock Status</th>
             <th className="px-4 py-3">Actions</th>
           </tr>
         </thead>
@@ -128,7 +128,7 @@ export default function WishlistTable() {
           ) : (
             wishList.map((item: WishlistItem) => (
               <tr key={item.id} className="border-b border-[#E4E7E9]">
-                <td className="px-4 py-4 flex items-start gap-4">
+                <td className=" py-4 flex items-start gap-4">
                   <Image
                     src={item.image_url || "/placeholder.png"}
                     alt={item.name}
@@ -144,19 +144,18 @@ export default function WishlistTable() {
                       {item.oldPrice}
                     </span>
                   )}
-                  <span className="font-bold">${item.price}</span>
+                  <span className="font-bold ml-5">₹{item.price}</span>
                 </td>
-                <td className="px-4 py-4">
+                <td className="px- py-4">
                   <span className="font-medium text-green-600">IN STOCK</span>
                 </td>
                 <td className="px-4 py-4">
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleAddToCart(item)}
-                      className="cursor-pointer text-white px-4 py-2 text-xs rounded flex items-center gap-2 bg-orange-500 hover:bg-orange-600"
+                      className="cursor-pointer text-white px-2 py-2 text-xs rounded flex items-center gap-2 bg-orange-500 hover:bg-orange-600"
                     >
                       ADD TO CART
-                      <FaShoppingCart />
                     </button>
                     <FaTrash
                       className="text-gray-500 cursor-pointer hover:text-red-600"

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import macimg from "../../public/assets/HeroImg/banner-macbook.svg"
+import macimg from "../../public/assets/g-2.jpg"
 
 const Banner = () => {
   return (

@@ -119,15 +119,15 @@ export default function CartPage() {
                   <div>
                     <h4 className="font-medium">{item.name}</h4>
                     <p className="text-gray-600 text-xs line-through">
-                      ${(item.price + 20).toFixed(2)}
+                      ₹{(item.price + 20).toFixed(2)}
                     </p>
-                    <p className="font-semibold">${item.price.toFixed(2)}</p>
+                    <p className="font-semibold">₹{item.price.toFixed(2)}</p>
                   </div>
                 </div>
 
-                <div className="text-center">${item.price.toFixed(2)}</div>
+                <div className="text-center">₹{item.price.toFixed(2)}</div>
 
-                <div className="flex justify-center items-center gap-2">
+                <div className="flex justify-center items-center gap-1 mr-2">
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
                     className="px-2 border rounded cursor-pointer"
@@ -143,9 +143,9 @@ export default function CartPage() {
                   </button>
                 </div>
 
-                <div className="text-center flex items-center justify-center gap-2">
+                <div className="text-center flex items-center justify-center gap-">
                   <span className="font-medium">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    ₹{(item.price * item.quantity).toFixed(2)}
                   </span>
                   <button
                     onClick={() => removeFromCart(item.id)}
@@ -178,7 +178,7 @@ export default function CartPage() {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span>Sub-total:</span>
-              <span>${subtotal > 0 ? subtotal.toFixed(2) : "0.00"}</span>
+              <span>₹{subtotal > 0 ? subtotal.toFixed(2) : "0.00"}</span>
             </div>
 
             <div className="flex justify-between">
@@ -188,17 +188,14 @@ export default function CartPage() {
 
             <div className="flex justify-between">
               <span>Discount:</span>
-              <span>${subtotal > 0 ? discount.toFixed(2) : "0.00"}</span>
+              <span>₹{subtotal > 0 ? discount.toFixed(2) : "0.00"}</span>
             </div>
 
-            <div className="flex justify-between">
-              <span>Tax:</span>
-              <span>${subtotal > 0 ? tax.toFixed(2) : "0.00"}</span>
-            </div>
+           
 
             <div className="flex justify-between font-bold pt-2 border-t">
               <span>Total:</span>
-              <span>${subtotal > 0 ? total.toFixed(2) : "0.00"} USD</span>
+              <span>₹{subtotal > 0 ? total.toFixed(2) : "0.00"} INR</span>
             </div>
           </div>
 

@@ -88,7 +88,14 @@ const CheckoutForm = () => {
   
 
 
-  const cart = dbCart;
+  // const cart = dbCart;
+  const buyNowItemString = typeof window !== "undefined" ? localStorage.getItem("buynow-item") : null;
+const buyNowItem: CartItem | null = buyNowItemString ? JSON.parse(buyNowItemString) : null;
+
+const cart = buyNowItem ? [buyNowItem] : dbCart;
+
+
+
   const subtotal = cart.reduce(
     (acc, item) => acc + item.price * (item.quantity ?? 1),
     0
@@ -117,92 +124,6 @@ const CheckoutForm = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-
-//   const handlePlaceOrder = async () => {
-//   const requiredFields = [
-//     "firstName", "lastName", "address", "email", "phone"
-//   ];
-//   const isValid = requiredFields.every(
-//     (field) => formData[field as keyof typeof formData].trim() !== ""
-//   );
-//   if (!isValid) {
-//     alert("Please fill in all required fields.");
-//     return;
-//   }
-
-//   if (selectedPaymentMethod === "UPI") {
-//     const orderId = generateOrderId();
-
-//     const options = {
-//       key: "rzp_test_Qb0nYhShKIlhSW", // Replace with your Razorpay key
-//       amount: total * 100, // in paisa
-//       currency: "INR",
-//       name: "luxury clicon",
-//       description: "UPI Payment",
-//       image: {logo},
-//       handler: async function (response: any) {
-//         const paymentId = response.razorpay_payment_id;
-//         await supabase.from("orders").insert([{
-//           user_id: userId,
-//           order_id: orderId,
-//           details: cart,
-//           total_amount: total,
-//           status: "paid",
-//           payment_method: "UPI",
-//           billing_info: billingInfo,
-//           payment_id: paymentId,
-//         }]);
-//         await supabase.from("cart").delete().eq("user_id", userId);
-//         setOrderId(orderId);
-//         setOrderPlaced(true);
-//         clearCart();
-//       },
-//       prefill: {
-//         name: `${formData.firstName} ${formData.lastName}`,
-//         email: formData.email,
-//         contact: formData.phone,
-//       },
-//       theme: {
-//         color: "#F37254",
-//       },
-//     };
-
-//     const rzp = new (window as any).Razorpay(options);
-//     rzp.open();
-//     return;
-//   }
-
-//   // fallback: Cash on Delivery or other methods
-//   const billingInfo = {
-//     firstName: formData.firstName,
-//     lastName: formData.lastName,
-//     address: formData.address,
-//     email: formData.email,
-//     phone: formData.phone,
-//   };
-
-//   const newOrderId = generateOrderId();
-//   const { error } = await supabase.from("orders").insert([{
-//     user_id: userId,
-//     order_id: newOrderId,
-//     details: cart,
-//     total_amount: total,
-//     status: "pending",
-//     payment_method: selectedPaymentMethod,
-//     billing_info: billingInfo,
-//   }]);
-
-//   if (error) {
-//     alert("Error placing order");
-//     return;
-//   }
-
-//   await supabase.from("cart").delete().eq("user_id", userId);
-//   setOrderId(newOrderId);
-//   setOrderPlaced(true);
-//   clearCart();
-// };
 
 const handlePlaceOrder = async () => {
   const requiredFields = ["firstName", "lastName", "address", "email", "phone"];
@@ -292,6 +213,7 @@ const handlePlaceOrder = async () => {
   setOrderId(newOrderId);
   setOrderPlaced(true);
   clearCart();
+  localStorage.removeItem("buynow-item");
 };
 
 
@@ -455,7 +377,7 @@ const handlePlaceOrder = async () => {
                 </div>
               </div>
               <span className="font-medium">
-                ${(item.price * item.quantity).toFixed(2)}
+                ₹{(item.price * item.quantity).toFixed(2)}
               </span>
             </div>
           ))}
@@ -464,23 +386,20 @@ const handlePlaceOrder = async () => {
         {/* Pricing Summary */}
         <div className="flex justify-between text-sm text-gray-600 pt-2">
           <span>Subtotal:</span>
-          <span>${subtotal > 0 ? subtotal.toFixed(2) : "0.00"}</span>
+          <span>₹{subtotal > 0 ? subtotal.toFixed(2) : "0.00"}</span>
         </div>
 
         <div className="flex justify-between text-sm text-gray-600">
           <span>Discount:</span>
-          <span>${subtotal > 0 ? discount.toFixed(2) : "0.00"}</span>
+          <span>₹{subtotal > 0 ? discount.toFixed(2) : "0.00"}</span>
         </div>
 
-        <div className="flex justify-between text-sm text-gray-600">
-          <span>Tax:</span>
-          <span>${subtotal > 0 ? tax.toFixed(2) : "0.00"}</span>
-        </div>
+    
 
         <div className="border-t pt-4 flex justify-between font-semibold">
           <span>Total:</span>
           <span>
-            ${subtotal > 0 ? (subtotal - discount + tax).toFixed(2) : "0.00"}
+            ₹{subtotal > 0 ? (subtotal - discount).toFixed(2) : "0.00"}
           </span>
         </div>
 

@@ -2,25 +2,25 @@
 
 import Image from "next/image";
 import React from "react";
-import Heroimg from "../public/assets/HeroImg/Widget.svg";
-import Heroimg1 from "../public/assets/HeroImg/Widget1.svg";
-import Heroimg2 from "../public/assets/HeroImg/Widget2.svg";
+import Heroimg from "../public/assets/HeroImg/brand-balmain-collection.webp";
+import Heroimg1 from "../public/assets/HeroImg/guci.jpg";
+import Heroimg2 from "../public/assets/HeroImg/ax-banner.jpg";
 import Link from "next/link";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
 const Hero = () => {
   return (
     <>
-      <section className="hero-section">
+      <section className="hero-section pt-2">
         <div className="container mx-auto p-4">
           <Swiper
-            modules={[Autoplay, Navigation]}
+            modules={[Autoplay]}
             autoplay={{ delay: 3000 }}
-            navigation
+            
             loop
             spaceBetween={20}
             className="rounded-xl overflow-hidden"

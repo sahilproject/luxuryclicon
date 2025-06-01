@@ -6,7 +6,6 @@ import { cartContext } from "@/app/context/ProductContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RxCross1 } from "react-icons/rx";
-import { BuynowBtn } from "../button/Button";
 import Link from "next/link";
 import { supabase } from "@/app/lib/supabaseClient";
 import { useRouter } from "next/navigation";
@@ -112,6 +111,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     });
   };
 
+  const handleBuyNow = () => {
+    // You can store data in localStorage
+    localStorage.setItem(
+      "buynow-item",
+      JSON.stringify({ ...product, quantity })
+    );
+
+    router.push("/checkoutpage?source=buynow");
+  };
+
   const handleIncrement = () => setQuantity((prev) => prev + 1);
   const handleDecrement = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
@@ -119,17 +128,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <>
       <div
-        className="relative border border-[#E4E7E9] rounded-sm p-3 overflow-hidden group"
+        className="relative border border-[#E4E7E9] rounded-sm p-1 overflow-hidden group"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Product Image */}
-        <div className="relative">
+        <div className="relative  h-[300px]">
           {product.image_url && (
             <Image
               src={product.image_url}
               alt="product-img"
-              className="w-full"
+              className="w-full h-full object-cover rounded"
               width={300}
               height={300}
             />
@@ -143,7 +152,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           {/* Icons */}
           <div
-            className={`absolute inset-0 flex items-center justify-center gap-3 transition-all duration-500 ${
+            className={`absolute inset-0 flex items-center justify-center gap-3  transition-all duration-500 ${
               isHovered
                 ? "translate-y-0 opacity-100"
                 : "translate-y-10 opacity-0"
@@ -260,9 +269,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                       ADD TO CART
                     </button>
 
-                    <Link href="/checkoutpage">
-                      <BuynowBtn />
-                    </Link>
+                    <button
+                      onClick={handleBuyNow}
+                      className="bg-green-600 text-white px-4 sm:px-6 py-3 sm:py-3 rounded-sm cursor-pointer transition-all text-sm sm:text-base"
+                    >
+                      BUY NOW
+                    </button>
                   </div>
                 </div>
               </div>
@@ -271,10 +283,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         )}
 
         {/* Product Details */}
-        <p className="text-[#191C1F] font-normal mt-2 line-clamp-2">
+        <p className="text-[#191C1F] font-normal mt-2 line-clamp-2 p-1">
           {product.name}
         </p>
-        <p className="text-[#2DA5F3] font-semibold">₹{product.price}</p>
+        <p className="text-[#2DA5F3] font-semibold p-1">₹{product.price}</p>
       </div>
     </>
   );

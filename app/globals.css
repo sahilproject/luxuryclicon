@@ -12,5 +12,24 @@
   margin: 0 auto;
 } */
 
+.congrats{
+  background: url("../public/assets/g-3.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 10s linear infinite;
+}
 
 

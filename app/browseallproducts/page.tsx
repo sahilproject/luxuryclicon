@@ -24,12 +24,10 @@ type Category = {
 
 const priceRanges = [
   { label: "All Price", min: null, max: null },
-  { label: "Under ₹20", min: 0, max: 20 },
-  { label: "₹25 to ₹100", min: 25, max: 100 },
-  { label: "₹100 to ₹300", min: 100, max: 300 },
   { label: "₹300 to ₹500", min: 300, max: 500 },
   { label: "₹500 to ₹1,000", min: 500, max: 1000 },
   { label: "₹1,000 to ₹10,000", min: 1000, max: 10000 },
+  { label: "₹10,000 to ₹15,000", min: 1000, max: 10000 },
 ];
 
 const Page = () => {
@@ -50,12 +48,16 @@ const Page = () => {
   }, []);
   
   const fetchProducts = async () => {
-    const { data, error } = await supabase.from("allproducts").select("*");
-    if (!error && data) {
-      setProducts(data);
-      setFilteredProducts(data);
-    }
-  };
+  const { data, error } = await supabase
+    .from("allproducts")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (!error && data) {
+    setProducts(data);
+    setFilteredProducts(data);
+  }
+};
 
   const fetchCategories = async () => {
     const { data, error } = await supabase.from("categories").select("*");
@@ -108,7 +110,7 @@ const Page = () => {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Sidebar Section */}
         <div className="md:col-span-3">
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-row sm:flex-col justify-between gap-4">
             {/* Category Filter */}
             <div>
               <h4 className="text-lg font-semibold text-[#191C1F] mb-2">CATEGORY</h4>

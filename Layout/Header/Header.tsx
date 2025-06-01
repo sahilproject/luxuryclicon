@@ -30,6 +30,7 @@ import { toast } from "react-toastify";
 import { Session } from "@supabase/supabase-js";
 import Confetti from "react-confetti";
 import SigninForm from "@/app/auth/signin/SinginForm";
+import { FiMenu } from "react-icons/fi";
 
 type Product = {
   id: number;
@@ -60,6 +61,7 @@ const Header = () => {
   const [role, setRole] = useState(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const widgetRef = useRef<HTMLDivElement>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // login user and access //
 
@@ -131,7 +133,7 @@ const Header = () => {
 
   // congrats timeout
   useEffect(() => {
-    const timer = setTimeout(() => setShowConfetti(false), 5000);
+    const timer = setTimeout(() => setShowConfetti(false), 6000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -147,6 +149,11 @@ const Header = () => {
     if (!hasClosed) {
       setOpenWidget(true);
     }
+     const timer = setTimeout(() => {
+        hideCloseBtn();
+      }, 8000);
+
+      return () => clearTimeout(timer); 
   }, []);
 
   // for serching products //
@@ -241,7 +248,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="bg-[#191C1F]">
+      <div className="bg-[#191C1F] ">
         {/* widget part  */}
         <div className="container">
           {openWidget && (
@@ -251,13 +258,9 @@ const Header = () => {
             >
               <div
                 ref={widgetRef}
-                className="rounded-lg shadow-lg p-4 text-white text-center
-                       w-[200px] h-[200px] sm:w-[400px] sm:h-[400px]
+                className="congrats rounded-lg shadow-lg p-4 text-white text-center
+                       w-[350px] h-[600px] sm:w-[400px] sm:h-[600px]
                        flex flex-col justify-between items-center relative overflow-hidden"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgb(255,105,180), rgb(30,144,255), rgb(144,238,144))",
-                }}
               >
                 {/* Full widget-wide confetti */}
                 {showConfetti && (
@@ -271,27 +274,31 @@ const Header = () => {
                   </div>
                 )}
 
-                {/* Congratulations! */}
-                <div className="z-10 mb-1 sm:mb-4">
-                  <p className="text-[8px] sm:text-2xl font-bold text-[#F3DE6D] drop-shadow animate-bounce">
-                    🎉 Congratulations! 🎉
-                  </p>
-                </div>
-
                 {/* Happy Holi + Offer */}
-                <div className="flex flex-col justify-center items-center flex-grow gap-1 z-10">
-                  <p className="text-[8px] sm:text-4xl font-bold bg-[#F3DE6D] text-black py-1 px-2 rotate-[-3deg]">
+                <div className="flex flex-col justify-center items-center flex-grow gap- z-10 ">
+                  {/* <p className="text-[18px] sm:text-4xl font-bold bg-[#F3DE6D] text-black py-1 px-2 rotate-[-3deg]">
                     Happy
                   </p>
-                  <p className="text-[8px] sm:text-3xl font-semibold">Holi</p>
-                  <p className="text-[6px] sm:text-lg font-semibold text-yellow-200 mt-1">
-                    🛍 29% OFF on new products!
+                  <p className="text-[28px] sm:text-3xl font-semibold">
+                    Durga Puja
+                  </p> */}
+                </div>
+                {/* Congratulations! */}
+                <div className="z-10 mb-1 sm:mb-4 ">
+                  <div className="overflow-hidden whitespace-nowrap">
+                    <p className="animate-marquee text-[25px] sm:text-lg font-bold text-white mb-1 inline-block">
+                      🛍 29% OFF on new products
+                    </p>
+                  </div>
+
+                  <p className="text-[30px] sm:text-2xl font-bold text-[white] drop-shadow animate-bounce">
+                    🎉 Grand Opening! 🎉
                   </p>
                 </div>
 
                 {/* Shop Now Button */}
                 <Link href="/browseallproducts">
-                  <button className="z-10 cursor-pointer text-[6px] sm:text-base bg-[#F3DE6D] text-black px-2 sm:px-4 py-1 sm:py-2 rounded-md hover:scale-105 transition-transform duration-200">
+                  <button className="z-10 cursor-pointer text-[26px] sm:text-base bg-[#5340ce]  px-2 sm:px-4 py-1 sm:py-2 rounded-md hover:scale-105 transition-transform duration-200">
                     Shop Now
                   </button>
                 </Link>
@@ -299,7 +306,7 @@ const Header = () => {
                 {/* Close Button */}
                 <RxCross1
                   onClick={hideCloseBtn}
-                  className="z-10 cursor-pointer text-[10px] sm:text-xl mt-1"
+                  className="z-10 cursor-pointer text-[20px] text-[black] sm:text-xl mt-1 "
                 />
               </div>
             </div>
@@ -335,7 +342,7 @@ const Header = () => {
       <hr className="text-[#1373b3]" />
 
       {/* nav part  */}
-      <div className="bg-[#ffffff] shadow">
+      <div className="bg-[#ffffff] shadow hidden sm:block">
         <div className="container">
           <div className="flex justify-between items-center py-3 px-2 sm:px-0">
             <Link href="/">
@@ -357,7 +364,6 @@ const Header = () => {
             </div>
 
             <div className="relative">
-              {/* Buttons Section */}
               <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3">
                 <button
                   onClick={() => setIsCartOpen(!isCartOpen)}
@@ -428,10 +434,6 @@ const Header = () => {
                 </div>
               </div>
 
-              {/* Cart Popup */}
-              {isCartOpen && <Cart onClose={() => setIsCartOpen(false)} />}
-
-              {/* wishlist Popup */}
               {isWishlistOpen && (
                 <Wishpage onClose={() => setIsWishlistOpen(false)} />
               )}
@@ -440,21 +442,141 @@ const Header = () => {
         </div>
       </div>
 
+      {/* for mobile  */}
+      <div className="bg-white shadow-sm w-full fixed top-0 z-50 block sm:hidden ">
+        <div className="flex justify-between items-center px-4 py-3 relative">
+          <button
+            className="text-2xl text-black sm:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <FiMenu />
+          </button>
+
+          <div className="absolute left-1/2 transform -translate-x-1/2">
+            <Link href="/">
+              <Image src={logo} alt="Logo" className="w-52" />
+            </Link>
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <button
+              onClick={() => setIsCartOpen(!isCartOpen)}
+              className="relative"
+            >
+              <IoCartOutline className="text-black text-2xl sm:text-3xl cursor-pointer font-semibold " />
+              {totalCartItems > 0 ? (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
+                  {totalCartItems}
+                </span>
+              ) : null}
+            </button>
+            <div className="relative" ref={userMenuRef}>
+              <button
+                className="flex items-center gap-1"
+                onClick={() => {
+                  if (!session) {
+                    setIslogin((prev) => !prev);
+                  } else if (role === "user") {
+                    router.push("/dashboard");
+                  }
+                }}
+              >
+                <PiUserLight className="text-black text-2xl sm:text-3xl cursor-pointer" />
+              </button>
+
+              {!session && islogin && (
+                <SigninForm onClose={handleSuccessfulLogin} />
+              )}
+            </div>
+          </div>
+        </div>
+
+        {isMenuOpen && (
+          <div className="bg-white border-t px-4 py-3 shadow-md">
+            <ul className="space-y-2">
+              <li>
+                <div className="relative" ref={userMenuRef}>
+                  <button
+                    className="flex items-center gap-1"
+                    onClick={() => {
+                      if (!session) {
+                        setIslogin((prev) => !prev);
+                      } else if (role === "user") {
+                        router.push("/dashboard");
+                      }
+                    }}
+                  >
+                    <PiUserLight className="text-black text-2xl sm:text-3xl cursor-pointer font-bold mt-1" />
+                    Profile
+                  </button>
+
+                  {!session && islogin && (
+                    <SigninForm onClose={handleSuccessfulLogin} />
+                  )}
+                </div>
+              </li>
+              <li>
+                <Link href="/myorders" className="block text-gray-700">
+                  📦 My Orders
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/wishlist"
+                  className="flex items-center text-gray-700 space-x-0.5"
+                >
+                  <IoMdHeartEmpty className="text-black text-2xl cursor-pointer" />
+                  <span>Wishlist</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/trackorder">
+                  <li className="flex items-center gap-x-1 cursor-pointer">
+                    <CiLocationOn className="text-[20px] sm:text-[16px]" />
+                    Track Order
+                  </li>
+                </Link>
+              </li>
+              <li>
+                <Link href="/faqpage" className="block text-gray-700">
+                  ❓ Help Center
+                </Link>
+              </li>
+
+              <li>
+                <Link href="/customersupport">
+                  <li className="flex items-center gap-x-2 cursor-pointer">
+                    <AiOutlineCustomerService className="text-[18px] sm:text-[16px]" />
+                    Customer Support
+                  </li>
+                </Link>
+              </li>
+              {session && !islogin && (
+                <button
+                  className="cursor-pointer w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                  onClick={handleLogout}
+                >
+                  🚪 Logout
+                </button>
+              )}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {/* Show Cart Modal */}
+      {isCartOpen && <Cart onClose={() => setIsCartOpen(false)} />}
+
       {/* info part  */}
       <div className="container px-4">
         <div className="flex justify-between items-center py-2 sm:py-4 text-xs sm:text-sm">
           <ul className="flex gap-x-3 sm:gap-x-8">
-            {/* display info items */}
             <Link href="/trackorder">
               <li className="flex items-center gap-x-1 cursor-pointer">
                 <CiLocationOn className="text-[14px] sm:text-[16px]" />
                 Track Order
               </li>
             </Link>
-            <li className="flex items-center gap-x-1 cursor-pointer">
-              <IoIosGitCompare className="text-[14px] sm:text-[16px]" />
-              Compare
-            </li>
+
             <Link href="/customersupport">
               <li className="flex items-center gap-x-1 cursor-pointer">
                 <AiOutlineCustomerService className="text-[14px] sm:text-[16px]" />

@@ -216,12 +216,12 @@ const UserDashboard = () => {
             <h3 className="text-lg font-semibold mb-2">PAYMENT OPTION</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-blue-600 text-white rounded-xl shadow p-4">
-                <p className="text-sm">$95,400.00 USD</p>
+                <p className="text-sm">₹95,400.00 USD</p>
                 <p className="mt-4">**** **** **** 3814</p>
                 <p className="mt-2">{profile?.name}</p>
               </div>
               <div className="bg-green-600 text-white rounded-xl shadow p-4">
-                <p className="text-sm">$87,583.00 USD</p>
+                <p className="text-sm">₹87,583.00 USD</p>
                 <p className="mt-4">**** **** **** 1761</p>
                 <p className="mt-2">{profile?.name}</p>
               </div>
@@ -265,7 +265,7 @@ const UserDashboard = () => {
                         {new Date(order.created_at).toLocaleString()}
                       </td>
                       <td className="p-3">
-                        ${order.total ?? order.total_amount ?? "0.00"}
+                        ₹{order.total ?? order.total_amount ?? "0.00"}
                       </td>
                       
                     </tr>

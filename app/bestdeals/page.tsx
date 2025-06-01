@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import shopimg from "../../public/assets/productimg/Image.svg";
+import shopimg from "../../public/assets/Gucci-fw12-Pinterest-banner-ad1.jpg";
 import eyeicon from "../../public/assets/productimg/Eye.svg";
 import carticon from "../../public/assets/productimg/ShoppingCartSimple.svg";
 import hearticon from "../../public/assets/productimg/Heart1.svg";
@@ -20,7 +20,6 @@ type Product = {
 const BestDeals = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  // console.log(products)
 
   useEffect(() => {
     fetchProducts();
@@ -41,11 +40,11 @@ const BestDeals = () => {
       <div className="container mx-auto p-4 pt-7">
         <div className="flex justify-between">
           <div className="flex items-center justify-center text-center">
-            <h3 className="text-[24px] font-semibold">Best Deals</h3>
+            <h3 className="text-[24px] font-semibold">Luxury Collection</h3>
           </div>
           <Link href="/browseallproducts">
-            <div className="flex justify-center items-center cursor-pointer">
-              <p className="text-[#2DA5F3] pr-2"> Browse All Product </p>
+            <div className="flex justify-center pt-2 items-center cursor-pointer">
+              <p className="text-[#2DA5F3] pr-1"> Browse All Brand </p>
               <GoArrowRight className="text-[20px] font-semibold text-[#2DA5F3]" />
             </div>
           </Link>
@@ -53,9 +52,9 @@ const BestDeals = () => {
 
         {/* products  */}
         <div className="grid grid-cols-1 md:grid-cols-12 mt-4 ">
-          <div className="md:col-span-3 p-6 border border-[#E4E7E9] hidden sm:block items-center ">
+          <div className="md:col-span-3 p-3  border border-[#E4E7E9] hidden sm:block items-center ">
             <Link href="/browseallproducts">
-              <Image src={shopimg} alt="shopimg" />
+              <Image src={shopimg} alt="shopimg" className="h-[550px]"/>
             </Link>
             <p>Rating</p>
             <p className="text-[#191C1F] font-normal">

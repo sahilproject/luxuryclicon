@@ -120,11 +120,11 @@ const FeaturedProducts = () => {
                 </ul>
 
                 <Link href="/browseallproducts">
-                  <div className="flex justify-center items-center sm:ml-4">
-                    <p className="text-[#FA8232] px-2 cursor-pointer text-sm sm:text-base">
-                      Browse All Products
+                  <div className="flex justify-center items-center sm:ml-4 pt-3">
+                    <p className="text-[#FA8232] cursor-pointer text-sm sm:text-base">
+                      Browse All Brands
                     </p>
-                    <GoArrowRight className="text-[18px] sm:text-[20px] font-semibold text-[#FA8232] pt-1" />
+                    <GoArrowRight className="text-[20px] sm:text-[20px]  font-semibold text-[#FA8232] pt-1" />
                   </div>
                 </Link>
               </div>

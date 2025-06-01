@@ -40,9 +40,9 @@ const Cart: React.FC<CartProps> = ({ onClose }) => {
       } = await supabase.auth.getUser();
 
       if (!user) {
-        toast.info("Please sign in to see your cart!");
-        return;
-      }
+  toast.info("Please sign in to see your cart!");
+  return;
+}
 
       const { data, error } = await supabase
         .from("cart")
@@ -85,7 +85,7 @@ const Cart: React.FC<CartProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="absolute top-12 right-2 sm:right-25 w-[400px] bg-white shadow-lg rounded-lg p-4 z-50">
+    <div className="absolute top-14 right-2 sm:right-45 sm:top-28 w-[400px] bg-white shadow-lg rounded-lg p-4 z-50">
       <h3 className="text-lg font-semibold mb-4">Shopping Cart</h3>
 
       {dbCart.length === 0 ? (
@@ -104,7 +104,7 @@ const Cart: React.FC<CartProps> = ({ onClose }) => {
               <div className="flex-1">
                 <p className="font-semibold text-sm">{item.name}</p>
                 <p className="text-sm text-gray-600">
-                  ${item.price.toFixed(2)} x {item.quantity}
+                  ₹{item.price.toFixed(2)} x {item.quantity}
                 </p>
               </div>
               <button
@@ -122,7 +122,7 @@ const Cart: React.FC<CartProps> = ({ onClose }) => {
       <div className="mt-6 flex flex-col gap-3 font-semibold">
         <div className="flex justify-between text-sm">
           <p className="font-normal">Sub-Total:</p>
-          <p className="font-semibold">${subtotal.toFixed(2)} USD</p>
+          <p className="font-semibold">₹{subtotal.toFixed(2)} INR</p>
         </div>
 
         <Link

@@ -17,10 +17,10 @@ const page = () => {
   return (
     <>
     <Hero/>
-    <Features/>
     <BestDeals/>
     <Categories/>
     <FeaturedProducts/>
+    <Features/>
     <Postar/>
     <ComputerAccesories/>
     <Banner/>
