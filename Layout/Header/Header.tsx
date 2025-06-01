@@ -452,9 +452,9 @@ const Header = () => {
             <FiMenu />
           </button>
 
-          <div className="absolute left-1/2 transform -translate-x-1/2">
+          <div className="absolute left-1/2  transform -translate-x-1/2">
             <Link href="/">
-              <Image src={logo} alt="Logo" className="w-52" />
+              <Image src={logo} alt="Logo" className="w-58" />
             </Link>
           </div>
           <div className="flex items-center justify-center gap-2">

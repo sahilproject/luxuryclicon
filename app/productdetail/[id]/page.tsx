@@ -7,10 +7,11 @@ import { FaRegHeart } from "react-icons/fa";
 import { LuGitCompare } from "react-icons/lu";
 import { LiaCcVisa } from "react-icons/lia";
 import { FaCcMastercard } from "react-icons/fa6";
-import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/app/lib/supabaseClient";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
 
 type Product = {
   id: number;
@@ -22,6 +23,7 @@ type Product = {
 const ProductDetailsPage = () => {
   const searchParams = useSearchParams();
   const [quantity, setQuantity] = useState(1);
+  
 
   const handleIncrement = () => setQuantity((prev) => prev + 1);
   const handleDecrement = () =>
@@ -35,7 +37,6 @@ const ProductDetailsPage = () => {
   };
 
   if (!product.name) return <div>Product not found</div>;
-
 
 
 
@@ -55,6 +56,8 @@ const ProductDetailsPage = () => {
           name: product.name,
           price: product.price,
           image_url: product.image_url,
+          quantity: quantity, 
+
       },
     ]);
   
@@ -65,6 +68,26 @@ const ProductDetailsPage = () => {
       toast.success("Product added to cart!");
     }
   };
+
+  const router = useRouter();
+
+const handleBuyNow = () => {
+  const buyNowData = {
+    product_id: product.id,
+    name: product.name,
+    price: product.price,
+    quantity: quantity,
+    image_url: product.image_url,
+  };
+
+  if (typeof window !== "undefined") {
+    localStorage.setItem("buynow-item", JSON.stringify(buyNowData));
+  }
+
+  router.push("/checkoutpage");
+};
+
+
 
   return (
     <div className="max-w-7xl mx-auto p-4 grid md:grid-cols-2 gap-10">
@@ -84,11 +107,9 @@ const ProductDetailsPage = () => {
         <h1 className="text-3xl font-semibold">{product.name}</h1>
 
         <div className="text-sm text-gray-500 flex gap-4">
+         
           <p>
-            SKU: <span className="font-medium">A264671</span>
-          </p>
-          <p>
-            Brand: <span className="font-medium">Apple</span>
+            Speciality: <span className="font-medium">1st Modern With High Quality</span>
           </p>
           <p className="text-green-600 font-medium">Availability: In Stock</p>
         </div>
@@ -104,9 +125,9 @@ const ProductDetailsPage = () => {
         {/* Pricing */}
         <div className="flex items-center gap-4">
           <span className="text-3xl text-orange-600 font-semibold">
-            ${product.price}
+            ₹{product.price}
           </span>
-          <span className="line-through text-gray-400 text-lg">$1899.00</span>
+          <span className="line-through text-gray-400 text-lg">₹1899.00</span>
           <span className="bg-yellow-100 text-yellow-600 px-2 py-1 rounded text-sm font-semibold">
             21% OFF
           </span>
@@ -119,15 +140,7 @@ const ProductDetailsPage = () => {
             <button className="w-6 h-6 rounded-full border-2 border-orange-500 bg-orange-400" />
             <button className="w-6 h-6 rounded-full border bg-gray-300" />
           </div>
-          <div className="flex gap-4 items-center">
-            <span className="text-sm font-medium">Memory:</span>
-            <button className="border px-4 py-1 rounded-full bg-white text-sm">
-              16GB
-            </button>
-            <button className="border px-4 py-1 rounded-full bg-white text-sm">
-              32GB
-            </button>
-          </div>
+          
         </div>
 
         {/* Quantity & Actions */}
@@ -150,15 +163,17 @@ const ProductDetailsPage = () => {
 
           <button
             onClick={handleAddToCart}
-            className="cursor-pointer bg-orange-500 text-white px-6 py-[10px] rounded hover:bg-orange-600"
+            className="cursor-pointer bg-orange-500 text-white px-4 py-[10px] rounded hover:bg-orange-600"
           >
             ADD TO CART
           </button>
-          <Link href="/checkoutpage">
-            <button className="border border-orange-500 cursor-pointer text-orange-500 px-6 py-[9px] rounded hover:bg-orange-50">
-              BUY NOW
-            </button>
-          </Link>
+          <button
+  onClick={handleBuyNow}
+  className="border border-orange-500 cursor-pointer text-orange-500 px-6 py-[9px] rounded hover:bg-orange-50"
+>
+  BUY NOW
+</button>
+
         </div>
 
         {/* Wishlist / Compare / Share */}

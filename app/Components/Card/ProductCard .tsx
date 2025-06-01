@@ -9,6 +9,7 @@ import { RxCross1 } from "react-icons/rx";
 import Link from "next/link";
 import { supabase } from "@/app/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import { GoArrowRight } from "react-icons/go";
 
 type Product = {
   id: number;
@@ -188,7 +189,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 className="absolute top-1 right-2 text-gray-500 hover:text-black p-3 cursor-pointer"
                 onClick={() => setIsModalOpen(false)}
               >
-                <RxCross1 />
+                <RxCross1 className="text-2xl "/>
               </button>
 
               <div className="flex flex-col sm:flex-row gap-5 sm:gap-7 w-full h-full">
@@ -205,7 +206,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         alt={product.name}
                         width={100}
                         height={100}
-                        className="w-full h-48 sm:h-60 object-contain rounded"
+                        className="w-full h-120 p-3 sm:h-100 sm:w-70 object-contain rounded"
                       />
                     )}
                   </Link>
@@ -243,6 +244,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     </Link>
                   )}
 
+                  <Link className="text-[blue] font-bold flex justify-center items-center gap-1"
+                    href={{
+                      pathname: `/productdetail/${product.id}`,
+                      query: { ...product },
+                    }}
+                  > See Product Details <GoArrowRight />
+                  </Link>
+                  
                   <div className="flex flex-row sm:flex-row gap-4 mt-4 sm:mt-6 items-start sm:items-center">
                     <div className="flex items-center border border-gray-300 rounded-sm text-sm sm:text-base">
                       <button

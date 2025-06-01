@@ -189,7 +189,6 @@ const handlePlaceOrder = async () => {
     return;
   }
 
-  // 💳 Fallback for COD or other methods
   const newOrderId = generateOrderId();
 
   const { error } = await supabase.from("orders").insert([
@@ -257,6 +256,8 @@ const handlePlaceOrder = async () => {
       </div>
     );
   }
+
+  
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 max-w-7xl mx-auto">
