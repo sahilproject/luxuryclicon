@@ -18,8 +18,9 @@ const Suscribe = () => {
           Subscribe to our newsletter
         </h2>
         <p className="text-center text-gray-200 max-w-md">
-          Praesent fringilla erat a lacinia egestas. Donec vehicula tempor
-          libero et cursus. Donec non quam urna. Quisque vitae porta .
+         Stay updated with the latest trends, exclusive offers, and new arrivals.
+Join our community and never miss out on style updates again.
+Sign up today for insider perks delivered straight to your inbox!
         </p>
 
         {/* Subscription Form */}

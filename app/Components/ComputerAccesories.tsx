@@ -75,7 +75,7 @@ const ComputerAccesories = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 mt-8 gap-x-4">
           {/* Products Section */}
           <div className="md:col-span-9">
-            <div className="flex justify-between ">
+            <div className="flex justify-between px-3">
               <h3 className="text-[24px] font-semibold text-[#191C1F]">
                 Computer Accessories
               </h3>
@@ -139,7 +139,7 @@ const ComputerAccesories = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-9 px-2">
               {filteredProducts.length > 0 ? (
                 filteredProducts
-                  .slice(0, 8)
+                  .slice(16, 24)
                   .map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))

@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React from "react";
-import news1 from "../../public/assets/newsimg/news-1.svg";
-import news2 from "../../public/assets/newsimg/news-2.svg";
-import news3 from "../../public/assets/newsimg/news-3.svg";
+import news1 from "../../public/6-Reasons-Your-Ecommerce-Site-Needs-a-Blog-Booster-Shot-400x210.webp";
+import news2 from "../../public/2.png";
+import news3 from "../../public/6433563_fb5b.jpg";
 import user from "../../public/assets/newsimg/UserCircle.svg";
 import calender from "../../public/assets/newsimg/CalendarBlank.svg";
 import comment from "../../public/assets/newsimg/ChatCircleDots.svg";
@@ -13,7 +13,7 @@ import { GoArrowRight } from "react-icons/go";
 
 const News = () => {
   return (
-    <div className="bg-[#F2F4F5] py-[72px]">
+    <div className="bg-[#F2F4F5] py-[34px] sm:py-[72px]">
       <div className="container mx-auto  ">
         <h3 className="text-center text-[32px] font-semibold text-[#191C1F]">
           Latest News
@@ -24,24 +24,22 @@ const News = () => {
            <div className="flex gap-x-3.5 text-[#475156] font-normal">
               <div className="flex gap-x-1 ">
                 <Image src={user} alt="news1" />
-                <p>Kristin</p>
+                <p>Manisha</p>
               </div>
               <div className="flex gap-x-1">
                 <Image src={calender} alt="news1" />
-                <p>19Dec,2013</p>
+                <p>19April,2025</p>
               </div>
               <div className="flex gap-x-1">
                 <Image src={comment} alt="news1" />
-                <p>453</p>
+                <p>45</p>
               </div>
               </div>
             <p className="text-[#191C1F] ">
-              Cras nisl dolor, accumsan et metus sit amet, vulputate condimentum
-              dolor.
+              The Rise of E-Commerce
             </p>
             <p className="font-normal text-[#77878F]">
-              Maecenas scelerisque, arcu quis tempus egestas, ligula diam
-              molestie lectus, tincidunt malesuada arcu metus posuere metus.
+              E-commerce is rapidly transforming global retail, offering consumers convenience and businesses expanded reach. With advancing technology and mobile access.
             </p>
             <button className="bg-white border p-3 border-amber-500 w-auto flex justify-center items-center max-w-[160px] gap-x-1 cursor-pointer font-semibold text-[#FA8232]">
                   READ MORE
@@ -54,19 +52,19 @@ const News = () => {
             <div className="flex gap-x-3.5 text-[#475156] font-normal items-center">
               <div className="flex gap-x-1 ">
                 <Image src={user} alt="news1" />
-                <p>Robert</p>
+                <p>Sayon</p>
               </div>
               <div className="flex gap-x-1">
                 <Image src={calender} alt="news1" />
-                <p>28 Nov, 2015</p>
+                <p>28 April, 2025</p>
               </div>
               <div className="flex gap-x-1">
                 <Image src={comment} alt="news1" />
-                <p>738</p>
+                <p>8</p>
               </div>
               </div>
             <p className="text-[#191C1F]">
-              Curabitur pulvinar aliquam lectus, non blandit erat mattis vitae.{" "}
+              CBuy Now Digitally with Your Card.{" "}
             </p>
             <p className="font-normal text-[#77878F]">
               Mauris scelerisque odio id rutrum volutpat. Pellentesque urna
@@ -79,23 +77,22 @@ const News = () => {
             <div className="flex gap-x-3.5 text-[#475156] font-normal items-center">
               <div className="flex gap-x-1 ">
                 <Image src={user} alt="news1" />
-                <p>Arlene</p>
+                <p>Jannyan</p>
               </div>
               <div className="flex gap-x-1">
                 <Image src={calender} alt="news1" />
-                <p>9 May, 2014</p>
+                <p>9 May, 2025</p>
               </div>
               <div className="flex gap-x-1">
                 <Image src={comment} alt="news1" />
-                <p>826</p>
+                <p>26</p>
               </div>
               </div>
             <p className="text-[#191C1F] ">
-              Curabitur massa orci, consectetur et blandit ac, auctor et tellus.
+              No Time? Order Now for Fast Delivery.
             </p>
             <p className="font-normal text-[#77878F]">
-              Pellentesque vestibulum lorem vel gravida aliquam. Morbi porta,
-              odio id suscipit mattis, risus augue condimentum purus.
+              Skip the wait—shop in seconds and get your order delivered at lightning speed, right to your doorstep.
             </p>
             <Button/>
           </div>

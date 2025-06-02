@@ -6,7 +6,6 @@ import googleplay from "../../public/assets/mobile.svg";
 import appstore from "../../public/assets/mobile1.svg";
 import "@/app/style/Style.css";
 import Link from "next/link";
-// import a from "../../public/policy/AboutUs";
 
 const Footer = () => {
   return (
@@ -18,7 +17,7 @@ const Footer = () => {
               <Image src={footerLogo} alt="c1" />
             </div>
             <p className="text-[#77878F] pt-3">Customer Supports:</p>
-            <p className="text-[#FFFFFF]">(629) 555-0129</p>
+            <p className="text-[#FFFFFF]">+91 9433854203</p>
             <p className="text-[#77878F]">
               Salt Lake , Kolkata , India
               <br /> 700002
@@ -34,7 +33,7 @@ const Footer = () => {
               <li className="py-1">Shirt</li>
               <li className="py-1">T-Shirt</li>
               <li className="py-1">Pants</li>
-              <li className="py-1 text-white">Belt</li>
+              <li className="py-1">Belt</li>
               <li className="py-1">Perfume</li>
               <li className="py-1">Headphones</li>
               <Link href="browseallproducts">
@@ -51,57 +50,20 @@ const Footer = () => {
             </h3>
             <ul className="text-[#929FA5] pt-4 flex flex-col gap-3 sm:gap-5 footerr-tag">
               <li>
-                <a
-                  href="/policy/ReturnPolicy.docx"
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Return Policy
-                </a>{" "}
+                <Link href="/returnpolicy">Return Policy</Link>
               </li>
               <li>
-                <a
-                  href="/policy/PrivacyPolicy.docx"
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Privacy Policy
-                </a>{" "}
+                <Link href="/privacypolicy">Privacy Policy</Link>
               </li>
               <li>
-                <a
-                  href="/policy/Disclaimer.docx"
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Disclaimer
-                </a>{" "}
+                <Link href="/disclaimer">Disclaimer</Link>
               </li>
               <li>
-                {" "}
-                <a
-                  href="/policy/ContactUs.docx"
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Contact Us
-                </a>{" "}
+                <Link href="/contactus">Contact us</Link>
               </li>
               <li>
-                {" "}
-                <a
-                  href="/policy/AboutUs.docx"
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  About Us
-                </a>{" "}
-              </li>{" "}
+                <Link href="/aboutus">About us</Link>
+              </li>
             </ul>
           </div>
           <div className="md:col-span-2 p-2 grid gap-4">
@@ -117,43 +79,43 @@ const Footer = () => {
             </h3>
             <ul className="text-white font-normal flex flex-wrap gap-2 items-center populer-tags">
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                Game
+                Gucci
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                iPhone
+                Armani
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                TV
+                Boss
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                Asus Laptops
+                Armani Exchange
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                Macbook
+                Calvin kelin
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                SSD
+                Burberry
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                Graphics Card
+                Balmain
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                Power Bank
+                Tommy Hilfier
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
                 Smart TV
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                Speaker
+                Perfume
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                Tablet
+                T-shirt
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                Microwave
+                Watch
               </li>
               <li className="px-3 py-1 border border-white/20 rounded-md">
-                Samsung
+                Belt
               </li>
             </ul>
           </div>

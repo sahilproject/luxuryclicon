@@ -56,18 +56,15 @@ const BestDeals = () => {
             <Link href="/browseallproducts">
               <Image src={shopimg} alt="shopimg" className="h-[550px]"/>
             </Link>
-            <p>Rating</p>
-            <p className="text-[#191C1F] font-normal">
-              Xbox Series S - 512GB SSD Console with Wireless Controller - EU
-              Versio...
+            <p className="text-[#191C1F] font-normal pt-4">
+             Trendy Gucci Girls Outfits
             </p>
             <span className="inline-flex items-center gap-2">
               <p className="text-[#ADB7BC] line-through">865.99 </p>
               <p className="text-[#2DA5F3] font-semibold font-sans">₹442.12</p>
             </span>{" "}
             <p className="text-[#5F6C72] text-[14px] pt-3">
-              Games built using the Xbox Series X|S development kit showcase
-              unparalleled load times, visuals.
+             Discover the perfect blend of luxury and style with our latest Gucci outfits for girls. From chic dresses to fashionable sets.
             </p>
             <div className="flex justify-between pt-3 items-center ">
               <div className="bg-[#FFE7D6] p-3 cursor-pointer">

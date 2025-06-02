@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
-import postar1 from "../../public/assets/postar1.svg";
+import postar1 from "../../public/C5frCtpPsqZ.jpg";
+import postar2 from "../../public/Pyper-America-Smith-Armani-Exchange-FW19-10-730x1032.jpg";
 import ProductCard from "./Card/ProductCard ";
 import { GoArrowRight } from "react-icons/go";
 import { supabase } from "../lib/supabaseClient";
@@ -68,13 +69,14 @@ const FeaturedProducts = () => {
       <div className="container mx-auto pt-7">
         {/* Products Section */}
         <div className="grid grid-cols-1 md:grid-cols-12 mt-8 gap-x-2">
-          <div className="md:col-span-3 hidden sm:block items-center cursor-pointer">
-            <Image src={postar1} alt="shopimg" />
+          <div className="md:col-span-3 items-center cursor-pointer flex justify-center sm:flex-col sm:gap-3">
+            <Image src={postar1} alt="shopimg" className="w-50 sm:w-full"/>
+            <Image src={postar2} alt="shopimg" className="w-44 sm:w-full"/>
           </div>
 
           {/* Product Listing */}
-          <div className="md:col-span-9">
-            <div className="flex justify-between">
+          <div className="md:col-span-9 pt-5">
+            <div className="flex justify-between px-3">
               <div className="flex items-center">
                 <h3 className="text-[24px] font-semibold text-[#191C1F]">
                   Featured Products
@@ -120,8 +122,8 @@ const FeaturedProducts = () => {
                 </ul>
 
                 <Link href="/browseallproducts">
-                  <div className="flex justify-center items-center sm:ml-4 pt-3">
-                    <p className="text-[#FA8232] cursor-pointer text-sm sm:text-base">
+                  <div className="flex justify-center items-center sm:ml-4 pt-2 sm:pt-0">
+                    <p className="text-[#FA8232] cursor-pointer text-sm sm:text-base px-3">
                       Browse All Brands
                     </p>
                     <GoArrowRight className="text-[20px] sm:text-[20px]  font-semibold text-[#FA8232] pt-1" />
@@ -134,7 +136,7 @@ const FeaturedProducts = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-9 px-2">
               {filteredProducts.length > 0 ? (
                 filteredProducts
-                  .slice(0, 8)
+                  .slice(8, 16)
                   .map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))

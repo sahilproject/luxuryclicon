@@ -20,7 +20,6 @@ import { supabase } from "@/app/lib/supabaseClient";
 import ProductCard from "@/app/Components/Card/ProductCard ";
 import { CiLocationOn } from "react-icons/ci";
 import { LuPhoneCall } from "react-icons/lu";
-import { IoIosGitCompare } from "react-icons/io";
 import { AiOutlineCustomerService } from "react-icons/ai";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { cartContext } from "@/app/context/ProductContext";
@@ -591,10 +590,7 @@ const Header = () => {
             </Link>
           </ul>
 
-          <p className="hidden sm:flex items-center gap-x-1 sm:gap-x-2 cursor-pointer text-xs sm:text-sm">
-            <LuPhoneCall className="text-[14px] sm:text-[16px]" /> +98
-            2534234432
-          </p>
+         
         </div>
       </div>
 
