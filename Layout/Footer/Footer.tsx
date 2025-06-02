@@ -23,6 +23,9 @@ const Footer = () => {
               <br /> 700002
             </p>
             <p className="text-[#FFFFFF]">luxuryclicon@gmail.com</p>
+            <li>
+                <Link href="/tcapply">Terms & Condition</Link>
+              </li>
           </div>
 
           <div className="md:col-span-2 p-2 grid ">
